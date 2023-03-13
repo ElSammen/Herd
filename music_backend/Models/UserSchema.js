@@ -17,3 +17,6 @@ const userSchema = new mongoose.Schema({
         maxLength: [100, "Password must not exceed more than 40 characters"]
     }
 });
+const userModel = mongoose.model("user", userSchema, "Users");
+
+module.exports = userModel;
