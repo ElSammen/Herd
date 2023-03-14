@@ -1,5 +1,6 @@
 const UserModel = require('../Models/UserSchema');
 
+
 exports.index = async function (req, res) {
     try {
         const users = await UserModel.find({});
