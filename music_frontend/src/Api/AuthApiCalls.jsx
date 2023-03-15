@@ -12,7 +12,6 @@ class AuthApiCalls extends AbstractApiClient {
         try {
             console.log("data ", data)
             console.log("operation ", operation)
-            // const response = await axios.post("http://localhost:3001/auth/login"
             const response = await this.postRequest(
                 `${this.baseURL}${operation}`,
                 data
