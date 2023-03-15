@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
     <AppRoutes
       isLoggedIn={isLoggedIn}
-      setIsLoggedIn={setIsLoggedIn}
+      setIsLoggedIn={(value) => setIsLoggedIn(value)}
     />
   </BrowserRouter>
   );

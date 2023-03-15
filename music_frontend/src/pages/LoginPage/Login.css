@@ -1,0 +1,66 @@
+.pageWrapper {
+    display: flex;
+    flex-direction: row;
+    place-content: center;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.formWrapper{
+display: flex;
+flex-direction: row;
+}
+
+.regWrapper {
+    margin: 25px;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    width: 250px;
+    height: 200px;
+    text-align: center;
+    margin-top: 15%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+.loginForm {
+    margin: 25px;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    width: 250px;
+    height: 200px;
+    text-align: center;
+    margin-top: 15%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+
+.formUsername {
+    margin: auto;
+}
+
+.formPassword{
+    margin: auto;
+}
+
+.loginForm Button{
+max-width: 5rem;
+cursor: pointer;
+}
+
+
+.inputField {
+    max-width: 10rem;
+}
+
+.header {
+    text-align: center;
+    margin-top: 20px;
+}

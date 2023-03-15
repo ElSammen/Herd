@@ -1,8 +1,9 @@
 import React from 'react'
-import {Form, Button, Alert } from 'react-bootstrap'
-import AuthApiCalls from '../../Api/AuthApiCalls'
+import {Form, Button, Container} from 'react-bootstrap'
+import AuthApiCalls from '../../API/AuthApiCalls'
 import { useState } from 'react'
-import { useNavigate } from "react-router-dom"
+import { useNavigate} from "react-router-dom"
+import './Login.css'
 
 function Login({setIsLoggedIn}) {
 
@@ -33,39 +34,42 @@ function Login({setIsLoggedIn}) {
 
   return (
     <>
-    {/* <h1>Login</h1>
-    {errorMessages && <Alert variant="danger">{errorMessages}</Alert>} */}
-    <Form onSubmit={loginHandler}>
-      <Form.Group className="mb-3" controlId="username">
-        <Form.Label>Username</Form.Label>
+    {/*{errorMessages && <Alert variant="danger">{errorMessages}</Alert>} */}
 
+    
+    <Container  className="loginForm">
+    <Form onSubmit={loginHandler}>
+    <div className="formUsername">
+      <Form.Group className="mb-3" controlId="username">
         <Form.Control
+        className="inputField"
          type="text"
          placeholder="Enter username"
          onChange={(event) => setUsername(event.target.value)}
          required
           />
-
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
-      </Form.Group>
-
+      </Form.Group></div>
+      <div className="formPassword">
       <Form.Group className="mb-3" controlId="password">
-        <Form.Label>Password</Form.Label>
-
         <Form.Control
+        className="inputField"
         type="password"
         placeholder="Password"
         onChange={(event) => setPassword(event.target.value)}
         required />
 
       </Form.Group>
+      </div>
+      <div className="loginButton">
       <Button variant="primary" type="submit">
         Login
       </Button>
+      </div>
     </Form>
+    </Container>
+
     </>
+
   )
 }
 

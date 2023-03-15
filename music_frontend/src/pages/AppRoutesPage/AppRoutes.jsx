@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "../HomePage/Home";
-import Login from "../LoginPage/Login";
-import Register from "../RegisterPage/Register";
-import Main from "../MainPage/Main";
+import AuthPage from "../AuthComponents/AuthPage";
 import { getToken } from "../_utils";
 
 function AppRoutes({ isLoggedIn, setIsLoggedIn }) {
   if (getToken()) {
-    isLoggedIn = true;
+    setIsLoggedIn(true)
   }
+
+  useEffect(() => {
+    console.log(isLoggedIn)
+  })
 
   return (
     <Routes>
@@ -17,15 +19,7 @@ function AppRoutes({ isLoggedIn, setIsLoggedIn }) {
         path="/"
         element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
       />
-      <Route
-        path="/main"
-        element={isLoggedIn ? <Main /> : <Navigate to="/login" />}
-      />
-      <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} />} />
-      <Route
-        path="/register"
-        element={<Register setIsLoggedIn={setIsLoggedIn} />}
-      />
+      <Route path="/login" element={<AuthPage setIsLoggedIn={(value) => setIsLoggedIn(value)} />} />
     </Routes>
   );
 }
