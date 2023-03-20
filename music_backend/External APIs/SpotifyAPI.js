@@ -1,4 +1,4 @@
-const AbstractAPIClient = require("./AbstractAPIClient");
+const AbstractAPIClient = require("./AbstractApiClient");
 
 module.exports = class GoogleBooksAPIClient extends AbstractAPIClient {
     constructor() {
