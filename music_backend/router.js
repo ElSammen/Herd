@@ -4,10 +4,11 @@ const router = express.Router();
 
 const UserRoutes = require('./Routes/UserRoutes');
 const AuthRoutes = require('./Routes/AuthRoutes');
-
+const SpotifyRoutes = require('./Routes/SpotifyRoutes')
 
 router.use('/users', UserRoutes);
 router.use('/auth', AuthRoutes);
+router.use('/spotify', SpotifyRoutes);
 
 //404 page
 router.use("*", (req, res) => {

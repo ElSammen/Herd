@@ -20,6 +20,7 @@ function AppRoutes({ isLoggedIn, setIsLoggedIn }) {
         element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
       />
       <Route path="/login" element={<AuthPage setIsLoggedIn={(value) => setIsLoggedIn(value)} />} />
+      <Route path="/home" element={<Home/>}/>
     </Routes>
   );
 }
