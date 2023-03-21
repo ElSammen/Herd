@@ -1,6 +1,6 @@
 import React from 'react'
 import {Form, Button, Container} from 'react-bootstrap'
-import AuthApiCalls from '../../Api/AuthApiCalls'
+import AuthApiCalls from '../../API/AuthApiCalls'
 import { useState } from 'react'
 import { useNavigate} from "react-router-dom"
 import './Login.css'
