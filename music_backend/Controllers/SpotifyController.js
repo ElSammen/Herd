@@ -1,44 +1,34 @@
-const CLIENT_ID=process.env.CLIENT_ID;
-const REDIRECT_URI=process.env.REDIRECT_URI
-const AUTH_ENDPOINT = process.env.AUTH_ENDPOINT
-const RESPONSE_TYPE = process.env.RESPONSE_TYPE
+const Spotify = require('spotify-web-api-node');
+const querystring = require('querystring');
+
+
+
+const generateRandomString = N => (Math.random().toString(36)+Array(N).join('0')).slice(2, N+2);
+
+const spotifyApi = new Spotify({
+    clientId: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
+    redirectUri: process.env.REDIRECT_URI || `http://localhost:3000/callback`
+  });
+
+
+// exports.login = async function (req, res) {
+//     const state = generateRandomString(16);
+//     res.cookie(stateKey, state);
+  
+//     // your application requests authorization
+//     const scope = 'user-read-private user-read-email user-read-playback-state';
+//     res.redirect('https://accounts.spotify.com/authorize?' +
+//       querystring.stringify({
+//         response_type: 'code',
+//         client_id: clientId,
+//         scope: scope,
+//         redirect_uri: redirectUri,
+//         state: state
+//       }));
+//   };
 
 exports.login = async function (req, res) {
-    try {
-        const { username, password } = req.body;
+    
+  };
 
-
-        const user = await UserModel.findOne({
-            username: username
-        }).exec();
-
-        if (!user) {
-            return res.status(400).send({
-                message: "Error! Invalid username or password!"
-            });
-        }
-
-        const isMatch = await user.validatePassword(password);
-
-        if (!isMatch) {
-            return res.status(400).send({
-                message: "Error! Invalid username or password!"
-            });
-        }
-
-        const token = generateToken(user._id, user.username);
-        user.token = token;
-        await user.save();
-
-        return res.status(201).send({
-            message: "Logged in successfully!",
-            token: token,
-            expiresIn: 3600
-        });
-    } catch (err) {
-        //TODO: other error handling
-        return res.status(500).send({
-            error: 'Something went wrong'
-        });
-    }
-}

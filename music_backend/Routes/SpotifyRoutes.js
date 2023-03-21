@@ -1,21 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport')
+const SpotifyController = require("../Controllers/SpotifyController");
 
-router.get(
-    '/auth/spotify',
-    passport.authenticate('spotify', {
-      scope: ['user-read-email', 'user-read-private'],
-      showDialog: true,
-    })
-  );
-
-router.get(
-    '/auth/spotify/callback',
-    passport.authenticate('spotify', {
-      failureRedirect: '/login',
-      successRedirect: '/',
-    })
-  );
+//POST REQUESTS
+router.post("/login", SpotifyController.login);
 
 module.exports = router;
