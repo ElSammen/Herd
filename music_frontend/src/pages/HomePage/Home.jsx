@@ -8,12 +8,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SettingsIcon from "@mui/icons-material/Settings";
+import Dashboard from "./Dashboard"
+import SpotifyLogin from './SpotifyLogin'
 
 function Home() {
   const REDIRECT_URI = "http://localhost:3000/home";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
   const CLIENT_ID = "dc2e15714c224981bd8be8fa9297a1ca";
+  const code = new URLSearchParams(window.location.search).get("code")
 
   const [token, setToken] = useState("");
   const [searchKey, setSearchKey] = useState("");
@@ -75,6 +78,13 @@ function Home() {
         </div>
       ));
   };
+
+
+  async function redirectToLogin() {
+    const data = await axios.get("http://localhost:3001/spotify/login")
+    window.open(data.data)
+    console.log(data)
+  }
 
   return (
     <div className="home">
@@ -171,25 +181,16 @@ function Home() {
             </li>
           </ul>
 
-          <div className="spotifyLoginAndLogout">
-              {!token ? (
-                <a
-                  href={`${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}`}
-                >
-                  <button className="logBtn">login</button>
-                </a>
-              ) : (
-                <button className="logBtn" onClick={logout}>
-                  logout
-                </button>
-              )}
-            </div>
+
 
         </div>
 
         <div className="spotifySearch">
           <div className="searchButtons">
-            {token && (
+            <div className="spotifyLoginAndLogout">
+              {code ? <Dashboard code={code} /> : <SpotifyLogin />}
+            </div>
+             {/* {token && (
               <form onSubmit={searchArtists}>
                 <input
                   type="text"
@@ -198,7 +199,7 @@ function Home() {
                   placeholder="search for artists"
                 />
               </form>
-            )}
+            )} */}
           </div>
           <div className="containResults">{artists && renderArtists()}</div>
         </div>
