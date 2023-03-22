@@ -9,13 +9,32 @@ import TrackSearchResult from "./TrackSearchResult"
 
 
 const spotifyApi = new SpotifyWebApi({
-  clientId: "c57767f293cb4f48a7d274d7d984f60c",
+  clientId: "dc2e15714c224981bd8be8fa9297a1ca",
 })
 
 export default function Dashboard({ code }) {
   const accessToken = useAuth(code)
+
+  // standard search usestate
+
   const [search, setSearch] = useState("")
+
+  // related artists usestate
+
+  const [searchRelated, setSearchRelated] = useState("")
+
+
+
+  // standard results use state array
+
   const [searchResults, setSearchResults] = useState([])
+
+  // related artists usestate array
+
+  const [searchResultsRelated, setSearchResultsRelated] = useState([])
+
+
+
   const [playingTrack, setPlayingTrack] = useState()
   const [lyrics, setLyrics] = useState("")
 
@@ -24,6 +43,8 @@ export default function Dashboard({ code }) {
     setSearch("")
     setLyrics("")
   }
+
+  // lyrics
 
   useEffect(() => {
     if (!playingTrack) return
@@ -40,10 +61,18 @@ export default function Dashboard({ code }) {
       })
   }, [playingTrack])
 
+  // access token stuff
+
   useEffect(() => {
     if (!accessToken) return
     spotifyApi.setAccessToken(accessToken)
   }, [accessToken])
+
+  function bothSearches(value) {
+      setSearch(value)
+  }
+
+// standard search
 
   useEffect(() => {
     if (!search) return setSearchResults([])
@@ -62,7 +91,12 @@ export default function Dashboard({ code }) {
             track.album.images[0]
           )
 
+         
+
+          console.log(track.artists[0].id)
+
           return {
+            artistId: track.artists[0].id,
             artist: track.artists[0].name,
             title: track.name,
             uri: track.uri,
@@ -70,19 +104,73 @@ export default function Dashboard({ code }) {
           }
         })
       )
+      setSearchRelated(searchResults[0].artistId)
     })
 
     return () => (cancel = true)
   }, [search, accessToken])
+ 
+// related search
+
+useEffect(() => {
+  console.log("search related", searchRelated)
+})
+
+  useEffect(() => {
+    if (!searchRelated) return setSearchResultsRelated([])
+    if (!accessToken) return
+
+    let cancel = false
+    spotifyApi.getArtistRelatedArtists(searchRelated).then(res => {
+      if (cancel) return
+      setSearchResultsRelated(
+        res.body.artists.map(artist => {
+          const smallestAlbumImage = artist.images.reduce(
+            (smallest, image) => {
+              if (image.height < smallest.height) return image
+              return smallest
+            },
+            artist.images[0]
+          )
+
+          console.log(artist)
+
+          return {
+            artist: artist.name,
+            uri: artist.uri,
+            albumUrl: smallestAlbumImage.url,
+          }
+        })
+      )
+    })
+
+    return () => (cancel = true)
+  }, [searchRelated, accessToken])
 
   return (
+
+// standard search
+
     <Container className="d-flex flex-column py-2" style={{ height: "100vh" }}>
       <Form.Control
         type="search"
         placeholder="Search Songs/Artists"
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={e => bothSearches(e.target.value)}
+      
       />
+
+{/* // related search */}
+
+      {/* <Form.Control
+        type="search"
+        placeholder="Search related artists"
+        value={searchRelated}
+        onChange={e => setSearchRelated(e.target.value)}
+      /> */}
+
+{/* // standard track feed */}
+
       <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
         {searchResults.map(track => (
           <TrackSearchResult
@@ -97,6 +185,24 @@ export default function Dashboard({ code }) {
           </div>
         )}
       </div>
+
+      {/* // related track feed */}
+      
+      <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
+        {searchResultsRelated.map(track => (
+          <TrackSearchResult
+            track={track}
+            key={track.uri}
+            chooseTrack={chooseTrack}
+          />
+        ))}
+        {searchResultsRelated.length === 0 && (
+          <div className="text-center" style={{ whiteSpace: "pre" }}>
+            {lyrics}
+          </div>
+        )}
+      </div>
+
       <div>
         <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
       </div>    
