@@ -27,6 +27,8 @@ exports.register = async function (req, res) {
         const token = generateToken(userInstance._id, userInstance.username);
         userInstance.token = token;
 
+        console.log(token)
+
         await userInstance.validate();
         await userInstance.save();
 

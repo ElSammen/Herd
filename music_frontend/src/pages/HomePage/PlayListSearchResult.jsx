@@ -1,13 +1,11 @@
-import React from "react"
+import React, { useCallback } from "react";
 
+export default function PlayListSearchResult({ track, chooseTrack }) {
 
-
-export default function TrackSearchResult({ track, chooseTrack}) {
-  function handlePlay() {
-    console.log("handle play ",track)
-    chooseTrack(track)
-    // track = ""
-  }
+  const handlePlay = useCallback(() => {
+    console.log("handle play ", track);
+    chooseTrack(track);
+  }, [track, chooseTrack]);
 
   return (
     <div
@@ -21,5 +19,5 @@ export default function TrackSearchResult({ track, chooseTrack}) {
         <div className="text-muted">{track.artist}</div>
       </div>
     </div>
-  )
+  );
 }

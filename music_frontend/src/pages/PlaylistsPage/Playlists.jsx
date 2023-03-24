@@ -2,25 +2,18 @@ import { useEffect, useState } from "react";
 import React from "react";
 import axios from "axios";
 import Nav from "react-bootstrap/Nav";
-import "./home.css";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import SettingsIcon from "@mui/icons-material/Settings";
 import StreamIcon from '@mui/icons-material/Stream';
-import Dashboard from "./Dashboard";
-import SpotifyLogin from "./SpotifyLogin";
+import PlaylistDashboard from "./PlaylistDashboard";
+import SpotifyPlaylistLogin from "./SpotifyPlaylistLogin";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
 
-function Home() {
-  // const navigate = useNavigate();
+function Playlists() {
   const code = new URLSearchParams(window.location.search).get("code");
-
-  // if(onPlaylist) {
-  //   navigate("/playlist");
-  // }
 
   return (
     <div className="home">
@@ -127,7 +120,7 @@ function Home() {
         <div className="spotifySearch">
           <div className="searchButtons">
             <div className="spotifyLoginAndLogout">
-              {code ? <Dashboard code={code} /> : <SpotifyLogin />}
+              {code ? <PlaylistDashboard code={code} /> : <SpotifyPlaylistLogin />}
             </div>
           </div>
         </div>
@@ -138,4 +131,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Playlists;
