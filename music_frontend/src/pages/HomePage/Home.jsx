@@ -13,14 +13,33 @@ import Dashboard from "./Dashboard";
 import SpotifyLogin from "./SpotifyLogin";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
+import ProfileApiCalls from '../../Api/ProfileApiCalls'
+
+const profileApi = new ProfileApiCalls();
 
 function Home() {
   // const navigate = useNavigate();
   const code = new URLSearchParams(window.location.search).get("code");
+  const [profile, setProfile] = useState(null);
 
   // if(onPlaylist) {
   //   navigate("/playlist");
   // }
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profileData = await profileApi.getProfile();
+        setProfile(profileData);
+        console.log(profileData)
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
 
   return (
     <div className="home">
@@ -69,14 +88,16 @@ function Home() {
             </div>
           </div>
           <ul className="listItems">
-            <li className="item01">
-              <div className="playlistIcon">
-                <AccountCircleIcon />
-              </div>
-              <div className="playists">
-              <Nav.Link href="/profile">Profile</Nav.Link>
-              </div>
-            </li>
+          <Nav.Item>
+              <Nav.Link className="item01" href="/profile">
+                <div className="accountIcon">
+              {profile? <img className="profilePic" src={profile.profilepic} /> : <AccountCircleIcon />}
+                </div>
+                <div className="profile">
+                  <p>{profile ? profile.username : <div>Profile</div>}</p>
+                </div>
+              </Nav.Link>
+            </Nav.Item>
             <li className="item01">
               <div className="playlistIcon">
               <StreamIcon/>

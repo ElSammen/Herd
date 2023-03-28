@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         auto: true
     },
+    profilepic: {
+        type: String,
+        default: "https://i.natgeofe.com/n/05ecc07c-c0e3-4d94-9e32-93ba1e9110ed/white-tailed-deer_thumb_3x4.JPG"
+    },
     username: {
         type: String,
         required: [true, "Username is required"],
@@ -17,6 +21,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Password is required"],
         maxLength: [100, "Password must not exceed more than 40 characters"]
+    },
+    genres: {
+        type: Array
     }
 });
 

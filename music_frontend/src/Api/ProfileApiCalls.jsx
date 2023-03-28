@@ -25,6 +25,36 @@ class ProfileApiCalls extends AbstractApiClient {
             throw error;
         }
     }
+
+    async updateProfile(formData) {
+        const token = getToken();
+        const decodedID = jwt_decode(token).userId;
+        try {
+          const response = await axios.patch(`${this.baseURL}/${decodedID}`, formData, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          return response.data;
+        } catch (error) {
+          throw error;
+        }
+      }
+
+      async removeGenre(genres) {
+        const token = getToken();
+        const decodedID = jwt_decode(token).userId;
+        try {
+          const response = await axios.patch(`${this.baseURL}/genres/${decodedID}`, {genres}, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          return response.data;
+        } catch (error) {
+          throw error;
+        }
+    }
 }
   
 

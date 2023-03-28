@@ -14,6 +14,7 @@ router.post("/", UsersController.create);
 
 //UPDATE REQUESTS
 router.patch("/:id", UsersController.update);
+router.patch("/genres/:id", UsersController.removeGenre);
 
 //DELETE REQUESTS
 router.delete("/all", UsersController.deleteAll);

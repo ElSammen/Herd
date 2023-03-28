@@ -16,8 +16,8 @@ router.post("/login", (req, res) => {
   const code = req.body.code
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000/home",
-    clientId: "dc2e15714c224981bd8be8fa9297a1ca",
-    clientSecret: "8bb0d16cd0a94e2994d209ce41bde332",
+    clientId: "c57767f293cb4f48a7d274d7d984f60c",
+    clientSecret: "6cfb0ca562de4ac09dc243bc6a4f4028",
   });
   spotifyApi
     .authorizationCodeGrant(code)
@@ -39,8 +39,8 @@ router.post("/refresh", (req, res) => {
   console.log("hi");
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000/home",
-    clientId: "dc2e15714c224981bd8be8fa9297a1ca",
-    clientSecret: "8bb0d16cd0a94e2994d209ce41bde332",
+    clientId: "c57767f293cb4f48a7d274d7d984f60c",
+    clientSecret: "6cfb0ca562de4ac09dc243bc6a4f4028",
     refreshToken,
   });
   spotifyApi
