@@ -1,4 +1,5 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
+
 
 export default function PlayListSearchResult({ track, chooseTrack }) {
 
@@ -6,6 +7,10 @@ export default function PlayListSearchResult({ track, chooseTrack }) {
     console.log("handle play ", track);
     chooseTrack(track);
   }, [track, chooseTrack]);
+
+  useEffect(()=> {
+console.log("playlistSearchResult tracks:", track)
+  },[track])
 
   return (
     <div

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useAuth from "./useAuth";
-import { Container, Form } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 import SpotifyWebApi from "spotify-web-api-node";
 import axios from "axios";
 import Player from "./Player";
@@ -42,8 +42,17 @@ export default function Dashboard({ code }) {
 
   const [playlistID, setPlaylistID] = useState("");
 
+  const [selectPlaylistId, setSelectPlaylistID] = useState("");
+
+  const [playlistIDs, setPlaylistIDs] = useState([]);
+
   const [playingTrack, setPlayingTrack] = useState("");
+
+  const [playingTrackArr, setPlayingTrackArr] = useState([]);
+
   const [lyrics, setLyrics] = useState("");
+
+  const [playlist, setPlaylistName] = useState("");
 
   // get playlists
 
@@ -58,16 +67,80 @@ export default function Dashboard({ code }) {
 
   function getPlaylists() {
     spotifyApi.getUserPlaylists(userID).then((res) => {
-      console.log("get playlists id", res.body.items[0].id);
-      setPlaylistID(res.body.items[3].id);
+      setPlaylistIDs(
+        res.body.items.map((id) => {
+          console.log("get playlists id", id);
+          return {
+            id: id.id,
+            name: id.name,
+          };
+        })
+      );
     });
+  }
+
+  function showPlaylist(playlist) {
+    console.log("showing playlist", playlist.id);
+
+    // which usestate are these calling??
+
+    // calls the returnPlaylistResults use effect
+
+    setPlaylistID(playlist.id);
+
+    setSelectPlaylistID(playlist.id);
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Do something with the form data
+    console.log("playlist:", playlist);
+    createPlaylist(playlist);
+
+    // Clear the form inputs
+    setPlaylistName("");
+  };
+
+  function createPlaylist(value) {
+    // console.log(value)
+    spotifyApi.createPlaylist(value).then((req) => {
+      console.log(req);
+      getUserInfo();
+      getPlaylists();
+    });
+    console.log("making playlist");
   }
 
   function chooseTrack(track) {
     console.log("choose track ", track);
     setPlayingTrack(track);
-    setSearch("");
+    // setSearch("");
     setLyrics("");
+  }
+
+  // add track to playlist useeffect
+
+  useEffect(() => {
+    console.log("use effect:", playingTrackArr);
+    spotifyApi
+      .addTracksToPlaylist(selectPlaylistId, [playingTrackArr])
+      .then((res) => {
+        console.log("create track res:", res);
+        setPlayingTrackArr([]);
+        getUserInfo();
+        getPlaylists();
+
+      });
+  }, [playingTrackArr]);
+
+  function addTrackToPlaylist() {
+    const value = playingTrack.uri;
+
+    setPlayingTrackArr(value);
+
+    console.log("playlist id:", selectPlaylistId);
+
+    console.log("our array:", playingTrackArr);
   }
 
   // lyrics
@@ -101,16 +174,16 @@ export default function Dashboard({ code }) {
   // map over playlists
 
   useEffect(() => {
+    console.log("playlist use effect");
     if (!userID) return setPlaylistResults([]);
     if (!accessToken) return;
 
     let cancel = false;
     spotifyApi.getPlaylistTracks(playlistID).then((res) => {
-      // console.log("res body ", res.body);
       if (cancel) return;
       setPlaylistResults(
         res.body.items.map((item) => {
-          // console.log("item ", item);
+          console.log("line 186 item:", item)
           const smallestAlbumImage = item.track.album.images.reduce(
             (smallest, image) => {
               if (image.height < smallest.height) return image;
@@ -120,6 +193,7 @@ export default function Dashboard({ code }) {
           );
 
           return {
+            id: Date.now(),
             artistId: item.track.artists[0].id,
             artist: item.track.artists[0].name,
             title: item.track.name,
@@ -134,10 +208,6 @@ export default function Dashboard({ code }) {
   }, [playlistID, accessToken]);
 
   // standard search
-
-  useEffect(() => {
-    // console.log(playlistResults);
-  }, [playlistResults]);
 
   useEffect(() => {
     if (!search) return setSearchResults([]);
@@ -208,15 +278,63 @@ export default function Dashboard({ code }) {
       <Container>
         <button onClick={getUserInfo}>get user info</button>
         <button onClick={getPlaylists}>get playlists</button>
+        <button onClick={addTrackToPlaylist}>Add song to playlist</button>
+        {/* <button onClick={createPlaylist}>Create Playlist</button> */}
+
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="formName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter your name"
+              value={playlist}
+              onChange={(e) => setPlaylistName(e.target.value)}
+              required
+            />
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+
+        <div className="listOfPlaylists">
+          {playlistIDs.map((playlist) => (
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => showPlaylist(playlist)}
+            >
+              {playlist.name}
+            </Button>
+          ))}
+        </div>
 
         <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-          {playlistResults.map((track) => (
-            <PlayListSearchResult
-              track={track}
-              key={track.uri}
-              chooseTrack={chooseTrack}
-            />
-          ))}
+          {
+          
+          
+          
+          [...new Map(playlistResults.map(track => [track["uri"], <PlayListSearchResult
+           track={track}
+           key={track.uri}
+           chooseTrack={chooseTrack}
+          />])).values()]
+          
+        // <PlayListSearchResult
+        //       track={track}
+        //       key={track.uri}
+        //       chooseTrack={chooseTrack}
+        //     />
+
+          // playlistResults.map((track) => (
+          //   <PlayListSearchResult
+          //     track={track}
+          //     key={track.uri}
+          //     chooseTrack={chooseTrack}
+          //   />
+          // ))}
+}
         </div>
       </Container>
 
