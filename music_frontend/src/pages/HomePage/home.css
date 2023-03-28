@@ -1,0 +1,230 @@
+.mainArea {
+    display: flex;
+}
+
+.sidebarArea {
+width: 200px;
+height: 1600px;
+background-color:rgb(44, 46, 65);
+}
+
+.containResults {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1400px;
+  height: 1200px;
+  margin-left: 100px;
+}
+
+.logo {
+    width:100px;
+    height: 100px;
+    color: white;
+}
+
+.resultsWrapper {
+    width: 250px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .results {
+    max-width: 250px;
+    max-height: 250px;
+    width: 250px;
+    height: 250px;
+  }
+
+img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.noImage {
+  margin-top: 25px;
+}
+
+.navLinks {
+  display: inline-block;
+  background-color: rgb(44, 46, 65);
+  width: 100%;
+  height: 150px;
+  font-size: 24px !important;
+  
+}
+
+.nav01 {
+  display: inline-block;
+  margin-left: 50px;
+  margin-bottom: -35px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.nav02 {
+  display: inline-block;
+  margin-left: 50px;
+
+}
+.nav03 {
+  display: inline-block;
+  margin-left: 50px;
+
+}
+
+a {
+color:rgb(44, 46, 65);
+}
+
+a:link {
+  text-decoration: none;
+}
+
+.spotifyTitleAndLoginWrapper {
+    margin-top: 100px;
+  display: flex;
+  width: 350px;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.spotifySearch {
+  background-color: rgb(44, 46, 65);
+  color: white;
+  width: 100%;
+  height: 1600px;
+  /* margin-left: 250px; */
+}
+
+.searchTitle {
+  width: 250px;
+  /* background-color: aqua; */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.spotifyLoginAndLogout {
+  width: 100px;
+  height: 100px;
+  /* background-color: aqua; */
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+}
+
+.logBtn {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+  align-content: center;
+  margin-top: 35px;
+  margin-left: 85px;
+  background-color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.logBtn:hover {
+  background-color: #4caf50; /* Green */
+}
+
+.searchButtons {
+  /* align-items: center;
+  justify-content: center;
+  text-align: center;
+  align-content: center; */
+  margin-left: 50px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+input {
+    /* margin-top: 20px;
+    margin-left: 50px; */
+    /* width: 200px !important;
+    height: 30px !important; */
+    margin-bottom: 15px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  background-color: white !important;
+  color: black !important;
+}
+
+.apicall {
+  height: 25px;
+  background-color: white !important;
+  border: none;
+  color: black !important;
+}
+
+.search {
+  height: 25px;
+}
+
+.listItems {
+    margin-left: 20px;
+    font-size: 18px;
+    list-style-type: none;
+}
+
+.item01 {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.item01 img {
+  margin-left: 18px;
+  height: 40px;
+  width: 40px;
+}
+
+.item02 {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+
+.playlistIcon {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.item03 {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.item04 {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.item05 {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.searchIcon {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+

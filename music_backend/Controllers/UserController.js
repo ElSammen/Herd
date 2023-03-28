@@ -54,7 +54,8 @@ exports.update = async function (req, res) {
         console.log(dbsize.genres.length);
     
         let user;
-        if (dbsize.genres.length <= 10) {
+        //check if the array in db is less than 10, may differ if checked in postman
+        if (dbsize.genres.length <= 9) {
           const update = { ...req.body };
           console.log("There is a problem")
           const genreArray = req.body.genres.split(',').map(genre => genre.trim());
@@ -66,8 +67,8 @@ exports.update = async function (req, res) {
             { runValidators: true, new: true }
           );
         } else {
-          console.log("Genre limit reached")
-        } return res.send("Genre limit reached");
+            return res.send("Genre limit reached");
+        } return res.send(user);
     } catch (error) {
         if (error.name === 'ValidationError') {
             const errors = Object.values(error.errors).map(error => error.message);
