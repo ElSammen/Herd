@@ -50,23 +50,24 @@ exports.update = async function (req, res) {
         //get length of the array in db
         const dbsize = await UserModel.findById(req.params.id);
         console.log(dbsize.genres.length);
-    
-        let user;
+
+        let user = dbsize;
+        const update = { ...req.body };
         //check if the array in db is less than 10, may differ if checked in postman
+        if (update.genres) {
         if (dbsize.genres.length <= 9) {
-          const update = { ...req.body };
-          console.log("There is a problem")
-          const genreArray = req.body.genres.split(',').map(genre => genre.trim());
-          { update.$push = { genres: { $each: genreArray } } };
-          delete update.genres; // remove genres property from the update object
-          user = await UserModel.findOneAndUpdate(
-            { _id: req.params.id },
-            update,
-            { runValidators: true, new: true }
-          );
+            const genreArray = req.body.genres.split(',').map(genre => genre.trim());
+            { update.$push = { genres: { $each: genreArray } } };
+            delete update.genres; } // remove genres property from the update object
+            user = await UserModel.findOneAndUpdate(
+                { _id: req.params.id },
+                update,
+                { runValidators: true, new: true }
+            );
         } else {
             return res.send("Genre limit reached");
-        } return res.send(user);
+        }
+        return res.send(user);
     } catch (error) {
         if (error.name === 'ValidationError') {
             const errors = Object.values(error.errors).map(error => error.message);
