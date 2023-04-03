@@ -61,6 +61,37 @@ exports.update = async function (req, res) {
       } else {
         return res.send("Genre limit reached");
       }
+    console.log(req.body.genres.split(',').length);
+    try {
+        //get length of the array in db
+        const dbsize = await UserModel.findById(req.params.id);
+        console.log(dbsize.genres.length);
+
+        let user = dbsize;
+        const update = { ...req.body };
+        //check if the array in db is less than 10, may differ if checked in postman
+        if (update.genres) {
+        if (dbsize.genres.length <= 9) {
+            const genreArray = req.body.genres.split(',').map(genre => genre.trim());
+            { update.$push = { genres: { $each: genreArray } } };
+            delete update.genres; } // remove genres property from the update object
+            user = await UserModel.findOneAndUpdate(
+                { _id: req.params.id },
+                update,
+                { runValidators: true, new: true }
+            );
+        } else {
+            return res.send("Genre limit reached");
+        }
+        return res.send(user);
+    } catch (error) {
+        if (error.name === 'ValidationError') {
+            const errors = Object.values(error.errors).map(error => error.message);
+            return res.status(400).send({ errors });
+        } else {
+            //TODO: other error handling
+            return res.status(500).send({ error });
+        }
     }
 
     if (Object.keys(update).length === 0) {
@@ -121,3 +152,17 @@ exports.removeGenre = async function (req, res) {
     return res.status(500).send({ error: "Something went wrong" });
   }
 };
+    console.log(req.body.genres)
+    try {
+        const user = await UserModel.findOneAndUpdate(
+            { _id: req.params.id },
+            { $pull: { genres: req.body.genres } },
+            { new: true }
+        );
+        console.log(user);
+        return res.send(user.genres);
+    } catch (error) {
+        //TODO: error handling
+        return res.status(500).send({ error: 'Something went wrong' });
+    }
+}
