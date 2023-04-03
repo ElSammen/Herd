@@ -1,19 +1,29 @@
 import React from "react"
 import Button from 'react-bootstrap/Button';
 import "./tracksearchresult.css";
+import Dropdown from "react-bootstrap/Dropdown";
+import { useEffect } from "react";
 
 
 
-export default function TrackSearchResult({ track, chooseTrack}) {
+export default function TrackSearchResult({ track, chooseTrack, playlistIDS,
+  playlistAddition}) {
   function handlePlay() {
     console.log("handle play ",track)
     chooseTrack(track)
-    // track = ""
   }
 
-  // function addToPlaylist() {
-  //   spotifyApi.addTracksToPlaylist(playlistID, track)
-  // }
+  function playlistFunction(playlist) {
+    console.log("were clicking");
+    console.log("track uri:", track.uri);
+    console.log("playlist id:", playlist);
+    playlistAddition(playlist, track.uri);
+    // console.log("playlist IDS:", playlistIDS)
+  }
+
+  useEffect(() => {
+    console.log("playlist IDS:", playlistIDS);
+  }, [playlistIDS]);
 
   return (
     <>
@@ -32,7 +42,28 @@ export default function TrackSearchResult({ track, chooseTrack}) {
       </div>
 
     </div>
-          <div className="addToPlaylist"><Button variant="success">Add To Playlist</Button></div>
+    <div className="addToPlaylist">
+          <Dropdown>
+            <Dropdown.Toggle variant="light" id="dropdown-basic">
+              Add To Playlist
+            </Dropdown.Toggle>
+
+            <Dropdown.Menu>
+              <div>
+                {playlistIDS.map((playlist) => (
+                  <div>
+                    <Dropdown.Item
+                      onClick={() => playlistFunction(playlist.id)}
+                      href="#/action-1"
+                    >
+                      {playlist.name}
+                    </Dropdown.Item>
+                  </div>
+                ))}
+              </div>
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
           </div>
           </>
   )

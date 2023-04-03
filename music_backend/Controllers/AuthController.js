@@ -53,6 +53,7 @@ exports.register = async function (req, res) {
 }
 
 exports.login = async function (req, res) {
+    console.log("were logging in?:", req.body)
     try {
         const { username, password } = req.body;
 
@@ -88,6 +89,7 @@ exports.login = async function (req, res) {
             expiresIn: 3600
         });
     } catch (err) {
+        console.log("catch error:", err)
         //TODO: other error handling
         return res.status(500).send({
             error: 'Something went wrong'

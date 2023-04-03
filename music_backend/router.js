@@ -5,19 +5,29 @@ const bodyParser = require("body-parser");
 const UserRoutes = require('./Routes/UserRoutes');
 const AuthRoutes = require('./Routes/AuthRoutes');
 const lyricsFinder = require('lyrics-finder');
+const axios = require("axios")
+
 
 router.use('/users', UserRoutes);
 router.use('/auth', AuthRoutes);
 
 router.use(bodyParser.json());
 
+router.get("/images/:genre", async (req, res) => {
+  const url = await axios.get(`https://api.unsplash.com/search/photos?page=1&query=${req.params.genre}&client_id=g6OURgVTe_hS4cJ-FnIQo0KQ5QlKUYOIZjO_eriyR5M`) 
+  console.log(url)
+  res.send(url.data)
+  });
+
+
+
 router.post("/login", (req, res) => {
   // console.log("hi")
   const code = req.body.code
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000/home",
-    clientId: "c57767f293cb4f48a7d274d7d984f60c",
-    clientSecret: "6cfb0ca562de4ac09dc243bc6a4f4028",
+    clientId: "dc2e15714c224981bd8be8fa9297a1ca",
+    clientSecret: "8bb0d16cd0a94e2994d209ce41bde332",
   });
   spotifyApi
     .authorizationCodeGrant(code)
@@ -39,8 +49,8 @@ router.post("/refresh", (req, res) => {
   console.log("hi");
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000/home",
-    clientId: "c57767f293cb4f48a7d274d7d984f60c",
-    clientSecret: "6cfb0ca562de4ac09dc243bc6a4f4028",
+    clientId: "dc2e15714c224981bd8be8fa9297a1ca",
+    clientSecret: "8bb0d16cd0a94e2994d209ce41bde332",
     refreshToken,
   });
   spotifyApi

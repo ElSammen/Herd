@@ -148,7 +148,7 @@ function Home() {
         <div className="spotifySearch">
           <div className="searchButtons">
             <div className="spotifyLoginAndLogout">
-              {code ? <Dashboard code={code} /> : <SpotifyLogin />}
+              {code ? <Dashboard code={code} profile={profile} /> : <SpotifyLogin />}
             </div>
           </div>
         </div>

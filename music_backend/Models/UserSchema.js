@@ -41,20 +41,21 @@ userSchema.pre('save', async function (next) {
     }
 });
 
-userSchema.pre('findOneAndUpdate', async function (next) {
-    try {
-        if (this._update.password) {
-            const salt = await bcrypt.genSalt(parseInt(process.env.PASSWORD_SALT_ROUNDS));
-            const hashed = await bcrypt.hash(this._update.password, salt);
-            this._update.password = hashed;
-        }
-        return next();
-    } catch (err) {
-        return next(err);
-    }
-});
+// userSchema.pre('findOneAndUpdate', async function (next) {
+//     try {
+//         if (this._update.password) {
+//             const salt = await bcrypt.genSalt(parseInt(process.env.PASSWORD_SALT_ROUNDS));
+//             const hashed = await bcrypt.hash(this._update.password, salt);
+//             this._update.password = hashed;
+//         }
+//         return next();
+//     } catch (err) {
+//         return next(err);
+//     }
+// });
 
 userSchema.method("validatePassword", async function (pass) {
+    console.log("were validating", pass)
     return bcrypt.compare(pass, this.password);
 });
 
