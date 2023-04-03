@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+
 .imageContainer01{
   display: flex;
 }
@@ -6,6 +8,10 @@
   width: 250px;
   height: 250px;
 
+}
+
+.sidebarText {
+  font-family: Varela Round;
 }
 
 /* .mainArea {

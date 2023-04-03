@@ -1,18 +1,39 @@
-import React, { useState, useEffect } from "react";
-import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import ProfileApiCalls from "../Api/ProfileApiCalls";
-import "bootstrap/dist/css/bootstrap.css";
+import React, { useState } from 'react';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import ProfileApiCalls from '../Api/ProfileApiCalls';
+import 'bootstrap/dist/css/bootstrap.css';
+import { QueryClient, useMutation } from '@tanstack/react-query';
+import "primereact/resources/primereact.min.css";
+import './Autocomplete.css'
+
 const profileApi = new ProfileApiCalls();
+const queryClient = new QueryClient()
+
 function UpdateProfileModal(props) {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     profilepic: props.profile.profilepic,
-    username: props.profile.username,
-    password: props.profile.password,
-    genres: props.profile.genres,
+    username: props.profile.username
   });
+
+
+  const [filteredGenres, setFilteredGenres] = useState([]);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+
+  const { mutate, isLoading } = useMutation((data) => profileApi.updateProfile(data), {
+    onSuccess: (profileData) => {
+      console.log(profileData);
+    },
+    onError: (error) => {
+      console.log("Something went wrong: ", error);
+    },
+    onSettled: () => {
+      handleClose();
+    },
+  });
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -26,47 +47,47 @@ function UpdateProfileModal(props) {
     });
   };
 
+  const handleSelect = (event) => {
+    const selectedGenre = event.value;  // Get the selected genre from the event object
+    setSelectedGenres([...selectedGenres, selectedGenre]);  // Add it to the array of selected genres
+    event.query = '';  // Clear the input value after a selection is made
+  };
+
+
   const submitData = async (event) => {
     event.preventDefault();
-
-    console.log("string:", formData.genres);
-    console.log("split:", formData.genres.split(","));
-
-const newGenresArray = formData.genres.split(",").map(element => {
-    return element.trim().split(" ").join("-")
-});
-
-console.log("new genres:", newGenresArray.toString())
-
-formData.genres = newGenresArray.toString()
-
-
     try {
-      console.log("form data 60:", formData);
-      const profileData = await profileApi.updateProfile(formData);
+      const updatedData = {
+        ...formData,
+        // Remove the `genres` field from the form data
+        // and don't include it in the data sent to the backend
+      };
+      const profileData = await profileApi.updateProfile(updatedData);
       console.log(profileData);
+      mutate(formData);
+      console.log(formData);
     } catch (error) {
       console.log("Something went wrong: ", error);
     }
     handleClose();
   };
 
-  useEffect(() => {
-console.log("use effect 70:", formData)
-  }, [formData])
+
 
   return (
     <>
       <Button variant="outline-light" onClick={handleShow}>
         Update Profile
       </Button>
+
       <Modal show={show} onHide={handleClose}>
         <Form onSubmit={submitData}>
+
           <Modal.Header closeButton>
             <Modal.Title>Update Profile</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form.Group className="mb-3 updatePic">
+            <Form.Group className="mb-3 updatePic" >
               Update Profile Picture
               <Form.Control
                 type="text"
@@ -76,34 +97,27 @@ console.log("use effect 70:", formData)
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group className="mb-3 updateUsername">
+            <Form.Group className="mb-3 updateUsername" >
               Update Username
               <Form.Control
                 id="username"
                 username={formData.username}
                 onChange={handleChange}
-                placeholder="John Doe"
-              />
+                placeholder="John Doe" />
             </Form.Group>
-            <Form.Group className="mb-3 updatePassword">
-              Update Password
-              <Form.Control
-                type="password"
-                id="password"
-                password={formData.password}
-                placeholder="Password..."
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
+            {/* <Form.Group>
               Update Genres
-              <Form.Control
-                type="text"
+              <AutoComplete
                 id="genres"
-                genres={formData.genres}
+                className='form-control mb-3'
+                multiple
+                value={selectedGenres}
+                suggestions={filteredGenres}
+                completeMethod={searchGenres}
                 onChange={handleChange}
+                onSelect={handleSelect}
               />
-            </Form.Group>
+            </Form.Group> */}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="dark" onClick={handleClose}>
@@ -113,9 +127,11 @@ console.log("use effect 70:", formData)
               Save Changes
             </Button>
           </Modal.Footer>
+
         </Form>
       </Modal>
     </>
   );
 }
+
 export default UpdateProfileModal;

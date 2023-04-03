@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import React from "react";
-import axios from "axios";
 import Nav from "react-bootstrap/Nav";
 import "./home.css";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,33 +11,19 @@ import StreamIcon from '@mui/icons-material/Stream';
 import Dashboard from "./Dashboard";
 import SpotifyLogin from "./SpotifyLogin";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom";
 import ProfileApiCalls from '../../Api/ProfileApiCalls'
+import {GiDeer} from 'react-icons/gi'
 
 const profileApi = new ProfileApiCalls();
 
-function Home() {
+function Home({profile}) {
   // const navigate = useNavigate();
   const code = new URLSearchParams(window.location.search).get("code");
-  const [profile, setProfile] = useState(null);
+
 
   // if(onPlaylist) {
   //   navigate("/playlist");
   // }
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const profileData = await profileApi.getProfile();
-        setProfile(profileData);
-        console.log(profileData)
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchProfile();
-  }, []);
 
 
   return (
@@ -56,25 +41,8 @@ function Home() {
           <div className="nav01">
             <Nav.Item>
               <Nav.Link href="/home">
-                <img className="logo" src="../images/reindeer-white.svg"></img>
+                <GiDeer className="deerIcon"/>
               </Nav.Link>
-            </Nav.Item>
-          </div>
-          <div className="nav01">
-            <Nav.Item>
-              <Nav.Link href="/home">Music Search</Nav.Link>
-            </Nav.Item>
-          </div>
-
-          <div className="nav02">
-            <Nav.Item>
-              <Nav.Link href="/drum">Drum Machine</Nav.Link>
-            </Nav.Item>
-          </div>
-
-          <div className="nav03">
-            <Nav.Item>
-              <Nav.Link href="/piano">Piano</Nav.Link>
             </Nav.Item>
           </div>
         </Nav>
@@ -94,7 +62,7 @@ function Home() {
               {profile? <img className="profilePic" src={profile.profilepic} /> : <AccountCircleIcon />}
                 </div>
                 <div className="profile">
-                  <p>{profile ? profile.username : <div>Profile</div>}</p>
+                  <p className="sidebarText">{profile ? profile.username : <div>Profile</div>}</p>
                 </div>
               </Nav.Link>
             </Nav.Item>
@@ -102,7 +70,7 @@ function Home() {
               <div className="playlistIcon">
               <StreamIcon/>
               </div>
-              <div className="playists">
+              <div className="playists sidebarText">
               <Nav.Link href="/home">Feed</Nav.Link>
               </div>
             </li>
@@ -111,7 +79,7 @@ function Home() {
               <div className="playlistIcon">
                 <AddIcon />
               </div>
-              <div className="playists">
+              <div className="playists sidebarText">
                 <Nav.Link href="/playlists">Playlists</Nav.Link>
               </div>
             </li>
@@ -120,7 +88,7 @@ function Home() {
               <div className="playlistIcon">
                 <SearchIcon />
               </div>
-              <div className="playists">
+              <div className="playists sidebarText">
               <Nav.Link href="/search">Search</Nav.Link>
               </div>
             </li>
@@ -129,7 +97,7 @@ function Home() {
               <div className="playlistIcon">
                 <FavoriteIcon />
               </div>
-              <div className="playists">
+              <div className="playists sidebarText">
               <Nav.Link href="/friends">Friends</Nav.Link>
               </div>
             </li>
@@ -138,7 +106,7 @@ function Home() {
               <div className="playlistIcon">
                 <SettingsIcon />
               </div>
-              <div className="playists">
+              <div className="playists sidebarText">
               <Nav.Link href="/settings">Settings</Nav.Link>
               </div>
             </li>
@@ -147,7 +115,7 @@ function Home() {
 
         <div className="spotifySearch">
           <div className="searchButtons">
-            <div className="spotifyLoginAndLogout">
+            <div className="spotifyLoginAndLogout sidebarText">
               {code ? <Dashboard code={code} profile={profile} /> : <SpotifyLogin />}
             </div>
           </div>

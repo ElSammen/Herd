@@ -14,34 +14,34 @@ router.use('/auth', AuthRoutes);
 router.use(bodyParser.json());
 
 router.get("/images/:genre", async (req, res) => {
-  const url = await axios.get(`https://api.unsplash.com/search/photos?page=1&query=${req.params.genre}&client_id=g6OURgVTe_hS4cJ-FnIQo0KQ5QlKUYOIZjO_eriyR5M`) 
+  const url = await axios.get(`https://api.unsplash.com/search/photos?page=1&query=${req.params.genre}&client_id=${process.env.UNSPLASH_ACCESS_KEY}`) 
   console.log(url)
   res.send(url.data)
   });
 
 
 
-router.post("/login", (req, res) => {
-  // console.log("hi")
-  const code = req.body.code
-  const spotifyApi = new SpotifyWebApi({
-    redirectUri: "http://localhost:3000/home",
-    clientId: "dc2e15714c224981bd8be8fa9297a1ca",
-    clientSecret: "8bb0d16cd0a94e2994d209ce41bde332",
-  });
-  spotifyApi
-    .authorizationCodeGrant(code)
-    .then(data => {
-      res.json({
-        accessToken: data.body.access_token,
-        refreshToken: data.body.refresh_token,
-        expiresIn: data.body.expires_in,
+  router.post("/login", (req, res) => {
+    // console.log("hi")
+    const code = req.body.code
+    const spotifyApi = new SpotifyWebApi({
+      redirectUri: "http://localhost:3000/home",
+      clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    });
+    spotifyApi
+      .authorizationCodeGrant(code)
+      .then(data => {
+        res.json({
+          accessToken: data.body.access_token,
+          refreshToken: data.body.refresh_token,
+          expiresIn: data.body.expires_in,
+        })
       })
-    })
-    .catch(err => {
-      res.sendStatus(400)
-    })
-})
+      .catch(err => {
+        res.sendStatus(400)
+      })
+  })
 
 
 router.post("/refresh", (req, res) => {
@@ -49,8 +49,8 @@ router.post("/refresh", (req, res) => {
   console.log("hi");
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000/home",
-    clientId: "dc2e15714c224981bd8be8fa9297a1ca",
-    clientSecret: "8bb0d16cd0a94e2994d209ce41bde332",
+    clientId: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
     refreshToken,
   });
   spotifyApi
