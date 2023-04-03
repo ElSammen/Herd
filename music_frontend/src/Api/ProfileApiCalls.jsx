@@ -26,19 +26,22 @@ class ProfileApiCalls extends AbstractApiClient {
         }
     }
 
-    async updateProfile(formData) {
-        const token = getToken();
-        const decodedID = jwt_decode(token).userId;
-        try {
-          const response = await axios.patch(`${this.baseURL}/${decodedID}`, formData, {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          return response.data;
-        } catch (error) {
-          throw error;
+    async updateProfile(updatedData) {
+      const token = getToken();
+      const decodedID = jwt_decode(token).userId;
+      if (updatedData.genres === '') {
+        delete updatedData.genres;
+      }
+      const urlEncodedData = new URLSearchParams(updatedData).toString();
+      const response = await axios.patch(`${this.baseURL}/${decodedID}`, urlEncodedData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Authorization: `Bearer ${token}`
         }
+      });
+      return response.data;
+    } catch (error) {
+        throw error;
       }
 
       async removeGenre(genres) {

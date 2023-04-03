@@ -12,6 +12,7 @@ exports.isUserAuthenticated = (req, res, next) => {
     try {
         const tokenDecoded = verifyToken(token);
         req.user = tokenDecoded;
+        console.log("were authenticated:", req.user)
         next();
     } catch (err) {
         return res.status(401).send("Unauthorized!");

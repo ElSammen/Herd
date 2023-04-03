@@ -2,11 +2,10 @@ import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import Home from "../HomePage/Home";
 import AuthPage from "../AuthComponents/AuthPage";
-import DrumMachine from "../DrumMachinePage/DrumMachine"
 import Profile from '../ProfilePage/ProfilePage';
 import { getToken } from "../_utils";
 
-function AppRoutes({ isLoggedIn, setIsLoggedIn }) {
+function AppRoutes({ isLoggedIn, setIsLoggedIn, profile }) {
   if (getToken()) {
     setIsLoggedIn(true)
   }
@@ -21,9 +20,8 @@ function AppRoutes({ isLoggedIn, setIsLoggedIn }) {
         element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
       />
       <Route path="/login" element={<AuthPage setIsLoggedIn={(value) => setIsLoggedIn(value)} />} />
-      <Route path="/home" element={token ? <Home/> : <Navigate to="/login"/>}/>
-      <Route path="/drum" element={token ? <DrumMachine/> : <Navigate to="/login"/>}/>
-      <Route path="/profile" element={token ? <Profile /> : <Navigate to="/login" />}/>
+      <Route path="/home" element={token ? <Home profile={profile}/> : <Navigate to="/login"/>}/>
+      <Route path="/profile" element={token ? <Profile profile={profile}/> : <Navigate to="/login" />}/>
     </Routes>
   );
 }

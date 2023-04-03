@@ -6,12 +6,19 @@ import axios from "axios";
 import Player from "./Player";
 import TrackSearchResult from "./TrackSearchResult";
 import PlayListSearchResult from "./PlayListSearchResult";
+import TrackResultRelated from "./TrackResultRelated";
+import RecommendationSearchResult from "./RecommendationSearchResult";
+import useAxios from "../../Api/useAxios";
+import UnSplashApiClient from "../../Api/UnSplashApiClient";
+import { AutoComplete } from 'primereact/autocomplete';
+
+const unsplashApi = new UnSplashApiClient();
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "dc2e15714c224981bd8be8fa9297a1ca",
 });
 
-export default function Dashboard({ code }) {
+export default function Dashboard({ code, profile }) {
   const accessToken = useAuth(code);
 
   // standard search usestate
@@ -120,6 +127,17 @@ export default function Dashboard({ code }) {
 
   // add track to playlist useeffect
 
+
+  function playlistAddition(playlist, trackUri) {
+    console.log("playlist addition:")
+    console.log("dashboard playlist:", playlist)
+    console.log("dashboard uri:", trackUri)
+    spotifyApi.addTracksToPlaylist(playlist, [trackUri]).then((res) => {
+      console.log("track added?:", res.body)
+    })
+  }
+
+
   useEffect(() => {
     console.log("use effect:", playingTrackArr);
     spotifyApi
@@ -129,7 +147,6 @@ export default function Dashboard({ code }) {
         setPlayingTrackArr([]);
         getUserInfo();
         getPlaylists();
-
       });
   }, [playingTrackArr]);
 
@@ -183,7 +200,7 @@ export default function Dashboard({ code }) {
       if (cancel) return;
       setPlaylistResults(
         res.body.items.map((item) => {
-          console.log("line 186 item:", item)
+          console.log("line 186 item:", item);
           const smallestAlbumImage = item.track.album.images.reduce(
             (smallest, image) => {
               if (image.height < smallest.height) return image;
@@ -266,15 +283,121 @@ export default function Dashboard({ code }) {
     return () => (cancel = true);
   }, [searchRelated, accessToken]);
 
-  // function pauseTrack() {
-  //   spotifyApi.pause()
-  // }
-  // function playTrack() {
-  //   spotifyApi.play()
-  // }
+  const [recommendations, setRecommendations] = useState([]);
+  const [recommendationsResults, setRecommendationsResults] = useState([]);
+
+  function getRecommendation(genre) {
+    spotifyApi.getRecommendations({ seed_genres: [`${genre}`] }).then((res) => {
+      console.log("profile:", accessProfile.genres);
+      setRecommendations(res.body.tracks);
+    });
+  }
+
+  useEffect(() => {
+    if (!recommendations) return setRecommendations([]);
+    if (!accessToken) return;
+
+    let cancel = false;
+    if (cancel) return;
+    setRecommendationsResults(
+      recommendations.map((item) => {
+        console.log("item:", item);
+        const smallestAlbumImage = item.album.images.reduce(
+          (smallest, image) => {
+            if (item.album.images[0] < smallest.height) return image;
+            return smallest;
+          },
+          item.album.images[0]
+        );
+
+        return {
+          artist: item.artists[0].name,
+          title: item.album.name,
+          uri: item.uri,
+          albumUrl: smallestAlbumImage.url,
+        };
+      })
+    );
+
+    return () => (cancel = true);
+  }, [recommendations, accessToken]);
+
+  const accessProfile = profile;
+
+  const [image01, setImageResults] = useState([]);
+
+  const [profileGenreTag, setProfileGenreTag] = useState([]);
+  const [profileGenres, setProfileGenres] = useState([]);
+  const [profileGenreTagResults, setProfileGenreTagResults] = useState("");
+
+  const [unsplashImages, setUnsplashImages] = useState([]);
+  const [genreSearch, setGenreSearch] = useState([]);
+
+  var imageArr = [];
+
+  function recommendedForYou() {
+    spotifyApi.getAvailableGenreSeeds().then((res) => {
+      console.log("genres:", res.body);
+    });
+
+    setProfileGenres(profile.genres);
+    let promiseArr = [];
+
+    profile.genres.forEach((genre) => {
+      promiseArr.push(unsplashApi.getImages(genre));
+    });
+
+    const allImages = Promise.all(promiseArr)
+      .then((values) => {
+        setUnsplashImages(
+          values.map((image) => {
+            imageArr.push(image.results[0].urls.regular);
+
+            return {
+              image: image.results[0].urls.regular,
+            };
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   return (
     <>
+
+
+
+      <Container>
+        <button onClick={recommendedForYou}>Reccomended for you</button>
+
+        <div className="imageContainer01">
+          {unsplashImages.map((item, index) => (
+            <div>
+              <img
+                className="splashImg"
+                onClick={() => getRecommendation(profile.genres[index])}
+                src={item.image}
+              ></img>
+            </div>
+          ))}
+        </div>
+
+        <button onClick={getRecommendation}>get recommendations</button>
+        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
+          {recommendationsResults.map((track) => (
+            <RecommendationSearchResult
+              track={track}
+              key={track.uri}
+              chooseTrack={chooseTrack}
+              playlistIDS={playlistIDs}
+              playlistAddition={playlistAddition}
+            />
+          ))}
+        </div>
+      </Container>
+
       <Container>
         <button onClick={getUserInfo}>get user info</button>
         <button onClick={getPlaylists}>get playlists</button>
@@ -311,30 +434,20 @@ export default function Dashboard({ code }) {
         </div>
 
         <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-          {
-          
-          
-          
-          [...new Map(playlistResults.map(track => [track["uri"], <PlayListSearchResult
-           track={track}
-           key={track.uri}
-           chooseTrack={chooseTrack}
-          />])).values()]
-          
-        // <PlayListSearchResult
-        //       track={track}
-        //       key={track.uri}
-        //       chooseTrack={chooseTrack}
-        //     />
-
-          // playlistResults.map((track) => (
-          //   <PlayListSearchResult
-          //     track={track}
-          //     key={track.uri}
-          //     chooseTrack={chooseTrack}
-          //   />
-          // ))}
-}
+          {[
+            ...new Map(
+              playlistResults.map((track) => [
+                track["uri"],
+                <PlayListSearchResult
+                  track={track}
+                  key={track.uri}
+                  chooseTrack={chooseTrack}
+                  playlistIDS={playlistIDs}
+                  playlistAddition={playlistAddition}
+                />,
+              ])
+            ).values(),
+          ]}
         </div>
       </Container>
 
@@ -360,6 +473,8 @@ export default function Dashboard({ code }) {
               track={track}
               key={track.uri}
               chooseTrack={chooseTrack}
+              playlistIDS={playlistIDs}
+              playlistAddition={playlistAddition}
             />
           ))}
           {searchResults.length === 0 && (
@@ -373,7 +488,7 @@ export default function Dashboard({ code }) {
 
         <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
           {searchResultsRelated.map((track) => (
-            <TrackSearchResult
+            <TrackResultRelated
               track={track}
               key={track.uri}
               chooseTrack={chooseTrack}

@@ -1,17 +1,20 @@
-import React, { useCallback, useEffect } from "react";
+import React from "react";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+import "./tracksearchresult.css";
+import { useEffect } from "react";
 
-export default function PlayListSearchResult({ track, chooseTrack, playlistIDS,
-  playlistAddition, }) {
-
-  const handlePlay = useCallback(() => {
+export default function RecommendationSearchResult({
+  track,
+  chooseTrack,
+  playlistIDS,
+  playlistAddition,
+}) {
+  function handlePlay() {
     console.log("handle play ", track);
     chooseTrack(track);
-  }, [track, chooseTrack]);
-
-  useEffect(() => {
-    console.log("playlistSearchResult tracks:", track);
-  }, [track]);
+  }
 
   function playlistFunction(playlist) {
     console.log("were clicking");
@@ -26,19 +29,20 @@ export default function PlayListSearchResult({ track, chooseTrack, playlistIDS,
   }, [playlistIDS]);
 
   return (
-    <div className="d-flex m-2 align-items-center">
-    <div
-      className="d-flex m-2 align-items-center"
-      style={{ cursor: "pointer" }}
-      onClick={handlePlay}
-    >
-      <img src={track.albumUrl} style={{ height: "64px", width: "64px" }} />
-      <div className="ml-3">
-        <div>{track.title}</div>
-        <div className="text-muted">{track.artist}</div>
-      </div>
-    </div>
-    <div className="addToPlaylist">
+    <>
+      <div className="d-flex m-2 align-items-center">
+        <div
+          className="d-flex m-2 align-items-center"
+          style={{ cursor: "pointer" }}
+          onClick={handlePlay}
+        >
+          <img src={track.albumUrl} style={{ height: "64px", width: "64px" }} />
+          <div className="ml-3">
+            <div>{track.title}</div>
+            <div className="text-muted">{track.artist}</div>
+          </div>
+        </div>
+        <div className="addToPlaylist">
           <Dropdown>
             <Dropdown.Toggle variant="light" id="dropdown-basic">
               Add To Playlist
@@ -60,6 +64,7 @@ export default function PlayListSearchResult({ track, chooseTrack, playlistIDS,
             </Dropdown.Menu>
           </Dropdown>
         </div>
-    </div>
+      </div>
+    </>
   );
 }
