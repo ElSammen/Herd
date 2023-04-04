@@ -5,7 +5,7 @@ import axios from "axios";
 class AuthApiCalls extends AbstractApiClient {
     constructor() {
         super();
-        this.baseURL = "https://herd-backend.onrender.com/auth/";
+        this.baseURL = "https://herd-backend.onrender.com/";
     }
 
     async loginOrRegister(data, operation) {
