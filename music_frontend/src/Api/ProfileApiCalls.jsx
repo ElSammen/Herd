@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 class ProfileApiCalls extends AbstractApiClient {
     constructor() {
         super();
-        this.baseURL = "https://herd-backend.onrender.com//users";
+        this.baseURL = "https://herd-backend.onrender.com/users";
     }
 
     async getProfile() {
