@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function RecommendationSearchResult({
   track,
   chooseTrack,
-  playlistIDS,
+  playlistIDs,
   playlistAddition,
 }) {
   function handlePlay() {
@@ -25,8 +25,8 @@ export default function RecommendationSearchResult({
   }
 
   useEffect(() => {
-    console.log("playlist IDS:", playlistIDS);
-  }, [playlistIDS]);
+    console.log("playlist IDS:", playlistIDs);
+  }, [playlistIDs]);
 
   return (
     <>
@@ -50,7 +50,7 @@ export default function RecommendationSearchResult({
 
             <Dropdown.Menu>
               <div>
-                {playlistIDS.map((playlist) => (
+                {playlistIDs.map((playlist) => (
                   <div>
                     <Dropdown.Item
                       onClick={() => playlistFunction(playlist.id)}

@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 
 
-export default function TrackSearchResult({ track, chooseTrack, playlistIDS,
+export default function TrackSearchResult({ track, chooseTrack, playlistIDs,
   playlistAddition}) {
   function handlePlay() {
     console.log("handle play ",track)
@@ -22,8 +22,8 @@ export default function TrackSearchResult({ track, chooseTrack, playlistIDS,
   }
 
   useEffect(() => {
-    console.log("playlist IDS:", playlistIDS);
-  }, [playlistIDS]);
+    console.log("playlist IDS:", playlistIDs);
+  }, [playlistIDs]);
 
   return (
     <>
@@ -50,7 +50,7 @@ export default function TrackSearchResult({ track, chooseTrack, playlistIDS,
 
             <Dropdown.Menu>
               <div>
-                {playlistIDS.map((playlist) => (
+                {playlistIDs?.map((playlist) => (
                   <div>
                     <Dropdown.Item
                       onClick={() => playlistFunction(playlist.id)}

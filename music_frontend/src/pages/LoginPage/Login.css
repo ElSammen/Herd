@@ -29,9 +29,20 @@ flex-direction: row;
     margin-top: 15%;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 }
+.loginWrapper {
+    margin: 25px;
+    display: flex;
+    flex-direction: column;
+    place-content: center;
+    width: 500px;
+    height: 500px;
+    text-align: center;
+    margin-top: 15%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
 
 .loginForm {
-    margin: 25px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
     place-content: center;

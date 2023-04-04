@@ -35,7 +35,7 @@ function Login({setIsLoggedIn}) {
   return (
     <>
 
-    
+    <div className="loginWrapper">
 <Container  className="loginForm">
     <Form onSubmit={loginHandler}>
     <div className="formUsername">
@@ -66,7 +66,7 @@ function Login({setIsLoggedIn}) {
       </div>
     </Form>
     </Container>
-
+    </div>
     </>
 
   )
