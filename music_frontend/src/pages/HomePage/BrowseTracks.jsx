@@ -4,12 +4,19 @@ import TrackSearchResult from './TrackSearchResult'
 import TrackResultRelated from './TrackResultRelated'
 
 function BrowseTracks(props) {
+
+  const checkBool = props.bottomText
+  console.log(checkBool)
   return (
     <div>
 
-<Container
-              className="d-flex flex-column py-2"
-              style={{ height: "100vh" }}
+<p className="recommendedText">Browse for new music!</p>
+
+
+<div className="searchBox">
+<Container 
+              className="d-flex flex-column py-2 result"
+            
             >
               <Form.Control
                 type="search"
@@ -17,9 +24,13 @@ function BrowseTracks(props) {
                 value={props.search}
                 onChange={(e) => props.bothSearches(e.target.value)}
               />
+</Container>
 
-
-
+</div>
+<Container 
+              className="d-flex flex-column py-2 result"
+              style={{ height: "100vh" }}
+            >
 
               <div className="flex-grow-1 ms-2" style={{ overflowY: "auto" }}>
                 {props.searchResults?.map((track) => (
@@ -41,8 +52,8 @@ function BrowseTracks(props) {
    
 
             {/* // related track feed */}
-
-
+{checkBool === true && (<><h5 className="recommendedText02">Related music to your search</h5></>)}
+            {/* <h5 className="recommendedText">Related music to your search</h5> */}
 
               <div className="flex-grow-1 ms-2" style={{ overflowY: "auto" }}>
                 {props.searchResultsRelated.map((track) => (

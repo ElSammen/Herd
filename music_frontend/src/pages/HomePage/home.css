@@ -1,12 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 
 * {
-  font-family: Varela Round !important;
-  margin-left: 0 !important;
+  /* font-family: Varela Round !important; */
+  /* margin-left: 0 !important; */
   /* padding-left: 0 !important; */
 }
-
-
 
 .home {
   font-family: Varela Round !important;
@@ -23,14 +21,18 @@ h1 {
   color: black;
 }
 
-
 .sidebarText {
   font-family: Varela Round !important;
+  cursor:default;
 }
 
-.addToPlaylist{
+.profilePic {
+  cursor:default;
+}
+
+.addToPlaylist {
   margin-left: auto !important;
-} 
+}
 
 .recommendedText {
   margin-left: 50px !important;
@@ -39,38 +41,43 @@ h1 {
   font-size: 54px;
   font-weight: 700;
 }
+.recommendedText02 {
+  margin-left: 50px !important;
+  margin-top: 50px !important;
+  margin-bottom: 25px !important;
+  font-size: 54px;
+  font-weight: 700;
+}
 
 .LeftMenu {
-width: 200px;
-height: 100vh;
-border: solid 1px #dee2e6;
-/* background-color: rgb(179, 230, 230); */
+  width: 200px;
+  height: 100vh;
+  border: solid 1px #dee2e6;
+  /* background-color: rgb(179, 230, 230); */
 }
 
 .containAll {
-  width:2000px;
+  width: 2000px;
   /* background-color: rgb(226, 227, 227); */
   display: inline-block !important;
 }
 .containAll02 {
-  width:2000px;
+  width: 2000px;
 
   /* background-color: rgb(215, 217, 217); */
   display: flex;
 }
 
 .whereDoesThisGo {
-  width:250px;
-  height:250px;
+  width: 250px;
+  height: 250px;
   /* background-color: rgb(221, 224, 224); */
   display: inline-block !important;
 }
 
-
 .bottomPlayer {
-  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
-
 
 .GiDeer {
   font-size: 50px;
@@ -78,18 +85,13 @@ border: solid 1px #dee2e6;
 
 .deerIcon {
   font-size: 50px;
+  color: black !important;
+  margin-left: 15px;
+  margin-bottom: 28px;
 }
 
 Player {
   margin-bottom: 0 !important;
-}
-
-.playlists {
-  margin-top: 25px;
-  margin-bottom: 25px;
-  margin-left: 25px !important;
-  font-weight: bold;
-
 }
 
 .listOfPlaylists {
@@ -102,99 +104,160 @@ Player {
   align-items: left;
   margin-left: 0;
   width: 200px;
-  }
+}
 
-  .sidebarText {
-    margin-left: 25px !important;
-    font-size: 18px;
-    font-weight: bolder;
-  }
+.sidebarText {
+  margin-top: 10px;
+  margin-bottom: 25px;
+  margin-left: 25px !important;
+  font-size: 16px;
+  font-weight: bolder;
+}
 
-  .createPlaylist {
-    margin-top: 5px;
-    /* text-align: left !important; */
-    align-items: left;
-    margin-left: 0px !important;
-    padding-left: 0 !important;
-    width: 200px;
-  }
+.playlists {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: 25px !important;
+  font-weight: bolder;
+  font-size: 16px;
+}
 
-  .createPlaylistForm {
-    text-align: left !important;
-    align-items: left !important;
-    margin-left: 0 !important;
-    width: 200px;
-  }
+.sidebarText02 {
+  margin-top: 25px;
+  margin-left: 25px !important;
+  font-size: 16px;
+  font-weight: bolder;
+}
 
-  Form {
+.createPlaylist {
+  /* margin-top: 5px; */
+  align-items: left;
+  margin-left: 0px !important;
+  padding-left: 0 !important;
+  width: 200px;
+}
+
+.createPlaylistForm {
+  left: -1px;
+  text-align: left !important;
+  align-items: left !important;
+  margin-left: 0 !important;
+  width: 200px;
+}
+
+/* Form {
     position: absolute;
     left: -1px;
     margin-left: 0px !important;
     padding-left: 0px !important;
     width: 200px;
-  }
+  } */
 
-  .createPlaylistContainer {
-    margin-top: 5px;
-    text-align: left !important;
-    align-items: left !important;
-    margin-left: 0 !important;
-    width: 200px;
-  }
+.createPlaylistContainer {
+  position: absolute;
+  left: -1px;
+  text-align: left !important;
+  align-items: left !important;
+  margin-left: 0 !important;
+  width: 200px;
+}
 
-  .playList01 {
-    
-  }
+.playList01 {
+  position: absolute;
+  left: -12px;
+  text-align: left !important;
+  align-items: left !important;
+  margin-left: 0 !important;
+  width: 200px;
+}
 
-  .imageContainer01{
-    display: flex;
-  }
-  
-  .imageContainer02 {
-    position: relative;
-    text-align: center;
-    color: white;
-  }
-  
-  .splashImg {
-    width: 250px;
-    height: 250px;
-    cursor: pointer;
-  
-  }
+.imageContainer01 {
+  display: flex;
+}
 
-  .centeredImgText {
-    font-size: 40px !important;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: black;
-    padding: 2.5px;
-    cursor: pointer;
-    /* color: white !important; */
+.imageContainer02 {
+  position: relative;
+  text-align: center;
+  color: white;
+}
 
-  }
+.splashImg {
+  width: 250px;
+  height: 250px;
+  cursor: pointer;
+}
 
-  .mainContainer {
-    margin-left: 50px !important;
-margin-right: auto !important;
-    width: 1250px;
-  }
+.centeredImgText {
+  font-size: 40px !important;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: black;
+  padding: 2.5px;
+  cursor: pointer;
+  /* color: white !important; */
+}
 
-  .playListBrowse {
-    width: 2000px;
-  }
+.mainContainer {
+  margin-left: 50px !important;
+  margin-right: auto !important;
+  width: 1250px;
+}
 
-  .browse {
-    width: 2000px;
-  }
+.playListBrowse {
+  width: 2000px;
+}
 
-  /* .playlistSearchResultDiv {
+.browse {
+  width: 2000px;
+}
+
+/* .playlistSearchResultDiv {
     height: 500px;
   } */
 
-  .enBiggen {
-    height: 500px;
-  }
+.enBiggen {
+  /* height: 500px; */
+  margin-left: 0 !important;
+}
+
+.result {
+  margin-left: 0 !important;
+}
+
+.searchBox {
+  margin-top: 50px;
+  margin-bottom: 25px;
+}
+
+h5 {
+  font-size: 32px !important;
+}
+
+.playlistTitle {
+  margin-top: 50px;
+  margin-bottom: 25px;
+}
+
+.nav01 {
+  display: inline-block !important;
+  margin-left: 5px;
+}
+
+.topBarTitle {
+  margin-left: 25px;
+  margin-top: 15px;
+  margin-bottom: -5px;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .genreButton {
+  border: solid 1px gray !important;
+  border-radius: 5px;
+  align-items: center !important;
+} */
+
 

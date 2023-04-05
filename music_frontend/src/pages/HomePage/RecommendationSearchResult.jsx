@@ -30,9 +30,9 @@ export default function RecommendationSearchResult({
 
   return (
     <>
-      <div className="d-flex m-2 align-items-center">
+      <div className="d-flex m-2 align-items-center result">
         <div
-          className="d-flex m-2 align-items-center"
+          className="d-flex m-2 align-items-center result"
           style={{ cursor: "pointer" }}
           onClick={handlePlay}
         >

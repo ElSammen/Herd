@@ -22,24 +22,24 @@ function Home({profile}) {
   return (
     <div className="home">
       <div className="navLinks">
+
+  
         <Nav variant="tabs" defaultActiveKey="/home">
+        <div className="topBarTitle">
           <div className="nav01">
-            <Nav.Item>
-              <Nav.Link href="/home">
-                <h1>HERD</h1>
-              </Nav.Link>
-            </Nav.Item>
+
+                <h1>Herd</h1>
+
           </div>
 
           <div className="nav01">
-            <Nav.Item>
-              <Nav.Link href="/home">
+ 
                 <GiDeer className="deerIcon"/>
-              </Nav.Link>
-            </Nav.Item>
+                </div>
           </div>
         </Nav>
-      </div>
+        </div>
+
 
 
 

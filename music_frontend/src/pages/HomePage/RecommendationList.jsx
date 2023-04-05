@@ -4,7 +4,7 @@ import RecommendationSearchResult from "./RecommendationSearchResult";
 
 function RecommendationList(props) {
   return (
-    <Container>
+    <Container className='result'>
     <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
       {props.recommendationsResults?.map((track) => (
         <RecommendationSearchResult

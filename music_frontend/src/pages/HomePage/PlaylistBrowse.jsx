@@ -1,14 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container } from 'react-bootstrap'
 import PlayListSearchResult from './PlayListSearchResult'
 
 function PlaylistBrowse(props) {
+
+useEffect(() => {
+console.log("useeffect for props:",props.playlistIDs)
+},[props])
+
   return (
     <div className='enBiggen'>
 
-<Container>
+<div className="playlistTitle">
+<h2>{props.setCurrentPlaylistName}</h2>
+</div>
+
+<Container className='result'>
 <div className='enBiggen'>
-            <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
+    <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
               {[
                 ...new Map(
                   props.playlistResults?.map((track) => [

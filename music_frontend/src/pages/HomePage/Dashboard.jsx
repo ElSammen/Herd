@@ -20,6 +20,7 @@ import "./home.css";
 import Nav from "react-bootstrap/Nav";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PlaylistBrowse from "./PlaylistBrowse";
+import ProfileView from "./ProfileView";
 
 const unsplashApi = new UnSplashApiClient();
 
@@ -128,6 +129,8 @@ export default function Dashboard({ code, profile }) {
       setPlaylistIDs(
         res.body.items.map((id) => {
           console.log("get playlists id", id);
+          console.log("playlist info:", id)
+
           return {
             id: id.id,
             name: id.name,
@@ -137,15 +140,19 @@ export default function Dashboard({ code, profile }) {
     });
   }
 
+  const [setCurrentPlaylistName, setCurrentPlaylist] = useState("")
+
   function showPlaylist(playlist) {
     playlistBrowseShow();
-    console.log("showing playlist", playlist.id);
-
+    console.log("showing playlist", playlist);
     // which usestate are these calling??
 
     // calls the returnPlaylistResults use effect
 
     setPlaylistID(playlist.id);
+console.log("show playlist current name:", playlistIDs)
+    setCurrentPlaylist(playlist.name)
+    console.log("current name:", setCurrentPlaylistName)
 
     setSelectPlaylistID(playlist.id);
   }
@@ -234,8 +241,11 @@ export default function Dashboard({ code, profile }) {
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
 
+  const [bottomText, setBottomText] = useState(false)
+
   function bothSearches(value) {
     setSearch(value);
+    setBottomText(true)
   }
 
   // map over playlists
@@ -423,6 +433,11 @@ export default function Dashboard({ code, profile }) {
     setStateView("playlist_browse");
   }
 
+  function profileShow() {
+    console.log("showing profile")
+    setStateView("profile_page");
+  }
+
   return (
     <>
       <Container>
@@ -432,9 +447,10 @@ export default function Dashboard({ code, profile }) {
       <div className="containAll">
         <div className="containAll02">
           <div className="LeftMenu">
+
             <div className="logoContainer">
               <Nav.Item>
-                <Nav.Link className="item01" href="/profile">
+                <Nav.Link className="item01">
                   <div className="accountIcon">
                     {profile ? (
                       <img className="profilePic" src={profile.profilepic} />
@@ -446,11 +462,23 @@ export default function Dashboard({ code, profile }) {
                     <p className="sidebarText">
                       {profile ? profile.username : <div>Profile</div>}
                     </p>
+
                   </div>
                 </Nav.Link>
               </Nav.Item>
             </div>
 
+            <Button
+              className="playlistButton"
+              size="md"
+              variant="light"
+              onClick={profileShow}
+            >
+              Profile
+            </Button>
+            <p className="sidebarText02">
+            <div>Browse</div>
+            </p>
             <Button
               className="playlistButton"
               size="md"
@@ -466,7 +494,7 @@ export default function Dashboard({ code, profile }) {
               variant="light"
               onClick={browseShow}
             >
-              Browse
+              Search
             </Button>
 
             <div className="playlists">Playlists</div>
@@ -515,6 +543,11 @@ export default function Dashboard({ code, profile }) {
           </div>
 
           <div className="mainContainer">
+
+{viewState === "profile_page" && ( <> <ProfileView
+profile={profile}/> </>)}
+
+
             {viewState === "recommended" && (
               <>
                 {" "}
@@ -542,6 +575,7 @@ export default function Dashboard({ code, profile }) {
                   chooseTrack={chooseTrack}
                   playlistIDs={playlistIDs}
                   playlistAddition={playlistAddition}
+                  setCurrentPlaylistName={setCurrentPlaylistName}
                 />
               </>
             )}
@@ -551,6 +585,7 @@ export default function Dashboard({ code, profile }) {
                 <BrowseTracks
                   search={search}
                   bothSearches={bothSearches}
+                  bottomText={bottomText}
                   searchResults={searchResults}
                   chooseTrack={chooseTrack}
                   playlistIDs={playlistIDs}

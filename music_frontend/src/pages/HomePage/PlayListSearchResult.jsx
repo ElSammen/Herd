@@ -29,6 +29,8 @@ export default function PlayListSearchResult({
   }, [playlistIDs]);
 
   return (
+<>
+
    <div className="playlistSearchResultDiv">
     <div className="d-flex m-2 align-items-center">
       <div
@@ -66,5 +68,6 @@ export default function PlayListSearchResult({
       </div>
     </div>
     </div>
+    </>
   );
 }
