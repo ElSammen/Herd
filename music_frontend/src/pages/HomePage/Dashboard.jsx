@@ -7,10 +7,20 @@ import Player from "./Player";
 import TrackSearchResult from "./TrackSearchResult";
 import PlayListSearchResult from "./PlayListSearchResult";
 import TrackResultRelated from "./TrackResultRelated";
+import RecommendationList from "./RecommendationList";
+import RecommendationImages from "./RecommendationImages";
+import BrowseTracks from "./BrowseTracks";
 import RecommendationSearchResult from "./RecommendationSearchResult";
 import useAxios from "../../Api/useAxios";
 import UnSplashApiClient from "../../Api/UnSplashApiClient";
-import { AutoComplete } from 'primereact/autocomplete';
+import { AutoComplete } from "primereact/autocomplete";
+import { GiDeer } from "react-icons/gi";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
+import "./home.css";
+import Nav from "react-bootstrap/Nav";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import PlaylistBrowse from "./PlaylistBrowse";
+import ProfileView from "./ProfileView";
 
 const unsplashApi = new UnSplashApiClient();
 
@@ -20,6 +30,10 @@ const spotifyApi = new SpotifyWebApi({
 
 export default function Dashboard({ code, profile }) {
   const accessToken = useAuth(code);
+
+  const [viewState, setStateView] = useState("");
+
+  const [infoBool, setInfoBool] = useState(false);
 
   // standard search usestate
 
@@ -63,20 +77,60 @@ export default function Dashboard({ code, profile }) {
 
   // get playlists
 
+  useEffect(() => {
+    if (accessToken && accessToken.length > 0) {
+      console.log("word");
+
+      setTimeout(() => {
+        console.log("token:", accessToken);
+        getUserInfo();
+      }, 1000);
+    }
+  }, [accessToken]);
+
   function getUserInfo() {
     console.log("getting user info check");
-    spotifyApi.getMe().then((res) => {
-      console.log("get user info:", res.body);
-      setUserID(res.body.id);
+
+    // const data = await spotifyApi.getMe()
+
+    const data = spotifyApi.getMe().then((value) => {
+      console.log("our data:", value);
+      if (value.body.id) {
+        setUserID(value.body.id);
+      }
     });
-    // console.log(me)
   }
 
+  //  function getUserInfo() {
+
+  //       console.log("getting user info check");
+
+  //       const data = spotifyApi.getMe().then((value) => {
+  //         console.log("our data:", value)
+  //       })
+  //         if(data.body.id) {
+  //         setUserID(data.body.id)
+  //       }
+
+  //       console.log("user info data:",data.body.id)
+  // }
+
+  useEffect(() => {
+    if (userID && userID.length > 0) {
+      console.log("userID:", userID);
+      console.log("playlists01");
+      getPlaylists();
+    }
+  }, [userID]);
+
   function getPlaylists() {
+    console.log("get playlists");
     spotifyApi.getUserPlaylists(userID).then((res) => {
       setPlaylistIDs(
         res.body.items.map((id) => {
           console.log("get playlists id", id);
+          console.log("playlist info:", id)
+
           return {
             id: id.id,
             name: id.name,
@@ -86,14 +140,19 @@ export default function Dashboard({ code, profile }) {
     });
   }
 
-  function showPlaylist(playlist) {
-    console.log("showing playlist", playlist.id);
+  const [setCurrentPlaylistName, setCurrentPlaylist] = useState("")
 
+  function showPlaylist(playlist) {
+    playlistBrowseShow();
+    console.log("showing playlist", playlist);
     // which usestate are these calling??
 
     // calls the returnPlaylistResults use effect
 
     setPlaylistID(playlist.id);
+console.log("show playlist current name:", playlistIDs)
+    setCurrentPlaylist(playlist.name)
+    console.log("current name:", setCurrentPlaylistName)
 
     setSelectPlaylistID(playlist.id);
   }
@@ -127,19 +186,17 @@ export default function Dashboard({ code, profile }) {
 
   // add track to playlist useeffect
 
-
   function playlistAddition(playlist, trackUri) {
-    console.log("playlist addition:")
-    console.log("dashboard playlist:", playlist)
-    console.log("dashboard uri:", trackUri)
+    console.log("playlist addition:");
+    console.log("dashboard playlist:", playlist);
+    console.log("dashboard uri:", trackUri);
     spotifyApi.addTracksToPlaylist(playlist, [trackUri]).then((res) => {
-      console.log("track added?:", res.body)
-    })
+      console.log("track added?:", res.body);
+    });
   }
 
-
   useEffect(() => {
-    console.log("use effect:", playingTrackArr);
+    // console.log("use effect:", playingTrackArr);
     spotifyApi
       .addTracksToPlaylist(selectPlaylistId, [playingTrackArr])
       .then((res) => {
@@ -184,8 +241,11 @@ export default function Dashboard({ code, profile }) {
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
 
+  const [bottomText, setBottomText] = useState(false)
+
   function bothSearches(value) {
     setSearch(value);
+    setBottomText(true)
   }
 
   // map over playlists
@@ -222,7 +282,7 @@ export default function Dashboard({ code, profile }) {
     });
 
     return () => (cancel = true);
-  }, [playlistID, accessToken]);
+  }, [playlistID]);
 
   // standard search
 
@@ -362,149 +422,190 @@ export default function Dashboard({ code, profile }) {
       .catch((err) => {
         console.log(err);
       });
+    setStateView("recommended");
+  }
+
+  function browseShow() {
+    setStateView("browse");
+  }
+
+  function playlistBrowseShow() {
+    setStateView("playlist_browse");
+  }
+
+  function profileShow() {
+    console.log("showing profile")
+    setStateView("profile_page");
   }
 
   return (
     <>
-
-
-
       <Container>
-        <button onClick={recommendedForYou}>Reccomended for you</button>
-
-        <div className="imageContainer01">
-          {unsplashImages.map((item, index) => (
-            <div>
-              <img
-                className="splashImg"
-                onClick={() => getRecommendation(profile.genres[index])}
-                src={item.image}
-              ></img>
-            </div>
-          ))}
-        </div>
-
-        <button onClick={getRecommendation}>get recommendations</button>
-        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-          {recommendationsResults.map((track) => (
-            <RecommendationSearchResult
-              track={track}
-              key={track.uri}
-              chooseTrack={chooseTrack}
-              playlistIDS={playlistIDs}
-              playlistAddition={playlistAddition}
-            />
-          ))}
-        </div>
+        <div className="topBar"></div>
       </Container>
 
-      <Container>
-        <button onClick={getUserInfo}>get user info</button>
-        <button onClick={getPlaylists}>get playlists</button>
-        <button onClick={addTrackToPlaylist}>Add song to playlist</button>
-        {/* <button onClick={createPlaylist}>Create Playlist</button> */}
+      <div className="containAll">
+        <div className="containAll02">
+          <div className="LeftMenu">
 
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="formName">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter your name"
-              value={playlist}
-              onChange={(e) => setPlaylistName(e.target.value)}
-              required
-            />
-          </Form.Group>
+            <div className="logoContainer">
+              <Nav.Item>
+                <Nav.Link className="item01">
+                  <div className="accountIcon">
+                    {profile ? (
+                      <img className="profilePic" src={profile.profilepic} />
+                    ) : (
+                      <AccountCircleIcon />
+                    )}
+                  </div>
+                  <div className="profile">
+                    <p className="sidebarText">
+                      {profile ? profile.username : <div>Profile</div>}
+                    </p>
 
-          <Button variant="primary" type="submit">
-            Submit
-          </Button>
-        </Form>
+                  </div>
+                </Nav.Link>
+              </Nav.Item>
+            </div>
 
-        <div className="listOfPlaylists">
-          {playlistIDs.map((playlist) => (
             <Button
-              variant="primary"
+              className="playlistButton"
               size="md"
-              onClick={() => showPlaylist(playlist)}
+              variant="light"
+              onClick={profileShow}
             >
-              {playlist.name}
+              Profile
             </Button>
-          ))}
-        </div>
+            <p className="sidebarText02">
+            <div>Browse</div>
+            </p>
+            <Button
+              className="playlistButton"
+              size="md"
+              variant="light"
+              onClick={recommendedForYou}
+            >
+              Reccomended for you
+            </Button>
 
-        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-          {[
-            ...new Map(
-              playlistResults.map((track) => [
-                track["uri"],
-                <PlayListSearchResult
-                  track={track}
-                  key={track.uri}
+            <Button
+              className="playlistButton"
+              size="md"
+              variant="light"
+              onClick={browseShow}
+            >
+              Search
+            </Button>
+
+            <div className="playlists">Playlists</div>
+
+            <div className="listOfPlaylists">
+              {playlistIDs.map((playlist) => (
+                <Button
+                  className="playlistButton"
+                  variant="light"
+                  size="md"
+                  onClick={() => showPlaylist(playlist)}
+                >
+                  {playlist.name}
+                </Button>
+              ))}
+            </div>
+
+            <div className="createPlaylistContainer">
+              <Container className="playList01">
+                <Form className="createPlaylistForm" onSubmit={handleSubmit}>
+                  <Form.Group
+                    className="createPlaylistForm"
+                    controlId="formName"
+                  >
+                    <Form.Control
+                      className="createPlaylistForm"
+                      type="text"
+                      placeholder="Name New Playlist"
+                      value={playlist}
+                      onChange={(e) => setPlaylistName(e.target.value)}
+                      required
+                    />
+                  </Form.Group>
+
+                  <Button
+                    className="createPlaylist"
+                    variant="light"
+                    size="md"
+                    type="submit"
+                  >
+                    Create Playlist
+                  </Button>
+                </Form>
+              </Container>
+            </div>
+          </div>
+
+          <div className="mainContainer">
+
+{viewState === "profile_page" && ( <> <ProfileView
+profile={profile}/> </>)}
+
+
+            {viewState === "recommended" && (
+              <>
+                {" "}
+                <RecommendationImages
+                  unsplashImages={unsplashImages}
+                  getRecommendation={getRecommendation}
+                  profile={profile}
+                />
+                <div className="recommendationListContainer">
+                  <RecommendationList
+                    recommendationsResults={recommendationsResults}
+                    chooseTrack={chooseTrack}
+                    playlistIDs={playlistIDs}
+                    playlistAddition={playlistAddition}
+                  />
+                </div>{" "}
+              </>
+            )}
+            
+  
+            {viewState === "playlist_browse" && (
+              <>
+                <PlaylistBrowse
+                  playlistResults={playlistResults}
                   chooseTrack={chooseTrack}
-                  playlistIDS={playlistIDs}
+                  playlistIDs={playlistIDs}
                   playlistAddition={playlistAddition}
-                />,
-              ])
-            ).values(),
-          ]}
+                  setCurrentPlaylistName={setCurrentPlaylistName}
+                />
+              </>
+            )}
+
+            {viewState === "browse" && (
+              <>
+                <BrowseTracks
+                  search={search}
+                  bothSearches={bothSearches}
+                  bottomText={bottomText}
+                  searchResults={searchResults}
+                  chooseTrack={chooseTrack}
+                  playlistIDs={playlistIDs}
+                  playlistAddition={playlistAddition}
+                  searchResultsRelated={searchResultsRelated}
+                />
+              </>
+            )}
+          </div>
+   
+
+  
+
+
         </div>
-      </Container>
+      </div>
 
-      {/* // standard search */}
-
-      <Container
-        className="d-flex flex-column py-2"
-        style={{ height: "100vh" }}
-      >
-        <Form.Control
-          type="search"
-          placeholder="Search Songs/Artists"
-          value={search}
-          onChange={(e) => bothSearches(e.target.value)}
-        />
-
-        {/* // standard track feed */}
-
-        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-          {searchResults.map((track) => (
-            // console.log("track ", track)
-            <TrackSearchResult
-              track={track}
-              key={track.uri}
-              chooseTrack={chooseTrack}
-              playlistIDS={playlistIDs}
-              playlistAddition={playlistAddition}
-            />
-          ))}
-          {searchResults.length === 0 && (
-            <div className="text-center" style={{ whiteSpace: "pre" }}>
-              {lyrics}
-            </div>
-          )}
-        </div>
-
-        {/* // related track feed */}
-
-        <div className="flex-grow-1 my-2" style={{ overflowY: "auto" }}>
-          {searchResultsRelated.map((track) => (
-            <TrackResultRelated
-              track={track}
-              key={track.uri}
-              chooseTrack={chooseTrack}
-            />
-          ))}
-          {searchResultsRelated.length === 0 && (
-            <div className="text-center" style={{ whiteSpace: "pre" }}>
-              {lyrics}
-            </div>
-          )}
-        </div>
-
-        <div>
-          <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
-        </div>
-      </Container>
+      <div className="bottomPlayer">
+        <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
+      </div>
     </>
   );
 }

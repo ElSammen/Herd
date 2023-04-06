@@ -9,27 +9,63 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
-    background-color: #070117;
-    color: #fff;
+    margin-top: 200px;
+    /* height: 100%; */
+    color: black;
 }
 .profilePic {
     width: 200px;
     height: 200px;
-    border-radius: 50%;
     margin-bottom: 20px;
 }
 .returnButton {
     background-color: #070117;
     border: none;
-    color: #fff;
+    color: black;
     font-size: 20px;
 }
-.genreButton {
-    margin: 1px;
+
+.addGenreButton {
+    width: 150px !important;
+    height: 45px !important;
+
 }
 
+.closeBtn {
+    position: relative;
+    bottom: 3px;
+    margin-right: 25px !important;
+    align-items: center !important;
+    margin-bottom: 1px;
+}
 
+.modalBtn {
+    margin-top: 25px;
+}
+
+.userName {
+margin-top: 25px;
+margin-bottom: 35px;
+}
+
+.faveGenres {
+margin-top: 50px;
+margin-bottom: 25px;
+}
+
+.genreBox {
+    height: 50px !important;
+}
+
+.p-autocomplete-multiple-container {
+    position: relative;
+    top: 5px;
+    height: 45px !important;
+}
+
+.tags {
+    margin-bottom: 25px;
+}
 
 
 

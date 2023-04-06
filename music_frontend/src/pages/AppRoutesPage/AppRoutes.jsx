@@ -21,7 +21,6 @@ function AppRoutes({ isLoggedIn, setIsLoggedIn, profile }) {
       />
       <Route path="/login" element={<AuthPage setIsLoggedIn={(value) => setIsLoggedIn(value)} />} />
       <Route path="/home" element={token ? <Home profile={profile}/> : <Navigate to="/login"/>}/>
-      <Route path="/profile" element={token ? <Profile profile={profile}/> : <Navigate to="/login" />}/>
     </Routes>
   );
 }

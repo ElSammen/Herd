@@ -34,39 +34,36 @@ function Login({setIsLoggedIn}) {
 
   return (
     <>
-
+    <Container className="regForm">
     
-<Container  className="loginForm">
-    <Form onSubmit={loginHandler}>
-    <div className="formUsername">
-      <Form.Group className="mb-3" controlId="username">
-        <Form.Control
-        className="inputField"
-         type="text"
-         placeholder="Enter username"
-         onChange={(event) => setUsername(event.target.value)}
-         required
-          />
-      </Form.Group></div>
-      <div className="formPassword">
-      <Form.Group className="mb-3" controlId="password">
-        <Form.Control
-        className="inputField"
-        type="password"
-        placeholder="Password"
-        onChange={(event) => setPassword(event.target.value)}
-        required />
+      <Form onSubmit={loginHandler}>
+        <div className="formUsername">
+          <Form.Group className="mb-3" controlId="username">
+            <Form.Control
+              type="text"
+              placeholder="Enter username"
+              onChange={(event) => setUsername(event.target.value)}
+              required
+            />
 
-      </Form.Group>
-      </div>
-      <div className="loginButton">
-      <Button variant="primary" type="submit">
-        Login
-      </Button>
-      </div>
-    </Form>
-    </Container>
 
+          </Form.Group>
+        </div> <div className="formPassword">
+          <Form.Group className="mb-3" controlId="password">
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(event) => setPassword(event.target.value)}
+              required />
+
+          </Form.Group></div>
+        <div className="loginButton">
+          <Button variant="primary" type="submit" className='login_btn'>
+            login
+          </Button>
+        </div>
+      </Form>
+      </Container>
     </>
 
   )

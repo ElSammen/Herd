@@ -4,6 +4,7 @@ import Register from '../RegisterPage/Register'
 import {Container} from 'react-bootstrap'
 import '../../pages/LoginPage/Login.css'
 import './authpage.css'
+import {GiDeer} from 'react-icons/gi'
 
 
 function AuthPage({setIsLoggedIn}) {
@@ -12,10 +13,12 @@ function AuthPage({setIsLoggedIn}) {
 
   return (
     <>
+  <div className="everything">
     <Container  className="pageWrapper">
     <div className="content">
-    <h1>Welcome to Herd!</h1>
-    <img className="logo02" src="../images/reindeer.svg"></img>
+    <h2>Welcome to Herd!</h2>
+    <GiDeer className='logo02'></GiDeer>
+    {/* <img className="logo02" src="../images/reindeer.svg"></img> */}
     <div className="header">
     <h3>Login or Register</h3>
     </div>
@@ -25,6 +28,7 @@ function AuthPage({setIsLoggedIn}) {
     </div>
     </div>
     </Container>
+    </div>
     </>
   )
 }

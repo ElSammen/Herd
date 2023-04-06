@@ -1,66 +1,102 @@
 .pageWrapper {
-    display: flex;
-    flex-direction: row;
-    place-content: center;
-    height: 100vh;
-    width: 100%;
-    margin: 0;
+    display: flex !important;
+    flex-direction: row !important;
+    place-content: center !important;
+    height: 100vh !important;
+    width: 100% !important;
+    margin: 0 !important;
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+    display: flex !important;
+    flex-direction: column !important;
+    text-align: center !important;
 }
 
 .formWrapper{
-display: flex;
-flex-direction: row;
+display: flex !important;
+flex-direction: row !important;
+}
+
+.regForm {
+    margin: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    place-content: center !important;
+    width: 250px !important;
+    height: 200px !important;
+    text-align: center !important;
+    margin-top: 15% !important;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px !important;
 }
 
 .regWrapper {
-    margin: 25px;
-    display: flex;
-    flex-direction: column;
-    place-content: center;
-    width: 250px;
-    height: 200px;
-    text-align: center;
+    margin: 25px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    place-content: center !important;
+    width: 250px !important;
+    height: 200px !important;
+    text-align: center !important;
+    margin-top: 15%;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+}
+.loginWrapper {
+    margin: 25px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    place-content: center !important;
+    width: 250px !important;
+    height: 200px !important;
+    text-align: center !important;
     margin-top: 15%;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
 }
 
+
 .loginForm {
-    margin: 25px;
-    display: flex;
-    flex-direction: column;
-    place-content: center;
-    width: 250px;
-    height: 200px;
-    text-align: center;
-    margin-top: 15%;
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px;
+    margin: 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    place-content: center !important;
+    width: 250px !important;
+    height: 200px !important;
+    text-align: center !important;
+    margin-top: 15% !important;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 3px 3px 0px !important;
 }
 
 .formUsername {
-    margin: auto;
+    margin: auto !important;
 }
 
 .formPassword{
-    margin: auto;
+    margin: auto  !important;
 }
 
 .loginForm Button{
-max-width: 5rem;
-cursor: pointer;
+max-width: 5rem  !important;
+cursor: pointer  !important;
 }
 
 
 .inputField {
-    max-width: 10rem;
+    max-width: 10rem  !important;
 }
 
 .header {
-    text-align: center;
-    margin-top: 20px;
+    text-align: center  !important;
+    margin-top: 20px  !important;
+}
+
+.loginForm01 {
+   margin-left: 500px !important;
+}
+
+.login_btn {
+    width: 150px !important;
+}
+
+.reg_btn {
+    width: 150px !important;
 }

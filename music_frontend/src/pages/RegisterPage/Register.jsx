@@ -32,8 +32,7 @@ function Register(props) {
 
   return (
     <>
-    
-    <Container className="regWrapper">
+    <Container className="regForm">
     
       <Form onSubmit={signUpHandler}>
         <div className="formUsername">
@@ -57,7 +56,7 @@ function Register(props) {
 
           </Form.Group></div>
         <div className="loginButton">
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit"className='reg_btn'>
             Register
           </Button>
         </div>

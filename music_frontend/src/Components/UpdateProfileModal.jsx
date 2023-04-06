@@ -76,8 +76,8 @@ function UpdateProfileModal(props) {
 
   return (
     <>
-      <Button variant="outline-light" onClick={handleShow}>
-        Update Profile
+      <Button className='modalBtn' variant="dark" onClick={handleShow}>
+        Update Profile Settings
       </Button>
 
       <Modal show={show} onHide={handleClose}>

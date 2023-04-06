@@ -8,7 +8,7 @@ import { useEffect } from "react";
 export default function RecommendationSearchResult({
   track,
   chooseTrack,
-  playlistIDS,
+  playlistIDs,
   playlistAddition,
 }) {
   function handlePlay() {
@@ -25,14 +25,14 @@ export default function RecommendationSearchResult({
   }
 
   useEffect(() => {
-    console.log("playlist IDS:", playlistIDS);
-  }, [playlistIDS]);
+    console.log("playlist IDS:", playlistIDs);
+  }, [playlistIDs]);
 
   return (
     <>
-      <div className="d-flex m-2 align-items-center">
+      <div className="d-flex m-2 align-items-center result">
         <div
-          className="d-flex m-2 align-items-center"
+          className="d-flex m-2 align-items-center result"
           style={{ cursor: "pointer" }}
           onClick={handlePlay}
         >
@@ -50,7 +50,7 @@ export default function RecommendationSearchResult({
 
             <Dropdown.Menu>
               <div>
-                {playlistIDS.map((playlist) => (
+                {playlistIDs.map((playlist) => (
                   <div>
                     <Dropdown.Item
                       onClick={() => playlistFunction(playlist.id)}

@@ -8,7 +8,7 @@ export default function Player({ accessToken, trackUri }) {
 
   useEffect(() => {
     setPlay(true)
-    console.log("trackuri log:", trackUri)
+    // console.log("trackuri log:", trackUri)
   }, [trackUri])
 
   useEffect(() => {
