@@ -25,7 +25,7 @@ router.get("/images/:genre", async (req, res) => {
     // console.log("hi")
     const code = req.body.code
     const spotifyApi = new SpotifyWebApi({
-      redirectUri: "https://herd-frontend.onrender.com/",
+      redirectUri: "https://herd-frontend.onrender.com/home",
       clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     });
@@ -48,7 +48,7 @@ router.post("/refresh", (req, res) => {
   const refreshToken = req.body.refreshToken;
   console.log("hi");
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "https://herd-frontend.onrender.com/",
+    redirectUri: "https://herd-frontend.onrender.com/home",
     clientId: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     refreshToken,
