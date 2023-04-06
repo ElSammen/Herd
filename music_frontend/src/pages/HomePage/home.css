@@ -4,6 +4,12 @@
   /* font-family: Varela Round !important; */
   /* margin-left: 0 !important; */
   /* padding-left: 0 !important; */
+  max-width: 100vw;
+}
+
+.recommendationListContainer{
+  overflow: scroll;
+  margin-bottom: 125px;
 }
 
 .home {
@@ -76,7 +82,11 @@ h1 {
 }
 
 .bottomPlayer {
-  margin-bottom: 0 !important;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 9999; /* adjust as needed to ensure it appears on top */
 }
 
 .GiDeer {
@@ -88,10 +98,6 @@ h1 {
   color: black !important;
   margin-left: 15px;
   margin-bottom: 28px;
-}
-
-Player {
-  margin-bottom: 0 !important;
 }
 
 .listOfPlaylists {
