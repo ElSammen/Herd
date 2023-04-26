@@ -6,7 +6,7 @@ import jwt_decode from "jwt-decode";
 class UnSplashApiClient extends AbstractApiClient {
     constructor() {
         super();
-        this.baseURL = "http://localhost:3001/images";
+        this.baseURL = "https://herd-backend.onrender.com/images";
     }
 
     async getImages(genre) {
